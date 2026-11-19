@@ -53,6 +53,7 @@ ul.h li{margin:4px 0;padding-left:12px;position:relative}
 ul.h li:before{content:"";position:absolute;left:0;top:.6em;width:5px;height:5px;border-radius:50%;background:var(--teal)}
 .age{color:var(--grey);font-size:12px;white-space:nowrap}
 .empty{color:var(--grey);font-style:italic;padding:12px 14px}
+.nosig b{font-style:normal;color:var(--navy);letter-spacing:.04em;margin-right:4px}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
 .card{background:#fff;border:1px solid var(--line);border-left:5px solid var(--orange);border-radius:10px;padding:11px 13px}
 .card.prop{border-left-color:var(--red)}
@@ -601,8 +602,8 @@ const sleep = ms => new Promise(r=>setTimeout(r,ms));
 function fromSnap(S){ const items={}; if (S.i) for (const [k,v] of Object.entries(S.i)) items[k]=v.map(x=>({t:x[0], l:x[1], d:S.at-x[2]*6e4})); return items; }
 const SANDBOXED = (window.origin==="null" || location.protocol==="blob:" || location.protocol==="about:");
 let DATA = { at: SNAP.at || null, items: SNAP.i ? fromSnap(SNAP) : (SNAP.items || {}), live:false };
-let VIEW = "signal", MODE = "all", THRESH = 2; const MAXN = 3;
-try { const v = localStorage.getItem("wbsf-th"); if (v !== null) THRESH = +v; } catch(e) {}
+let VIEW = "signal", MODE = "all", THRESH = 3; const MAXN = 3;
+try { const v = localStorage.getItem("wbsf-th3"); if (v !== null) THRESH = +v; } catch(e) {}
 try { const c = JSON.parse(localStorage.getItem("wbsf-cache")||"null"); if (c && c.at && (!DATA.at || c.at > DATA.at)) DATA = c; } catch(e) {}
 try { VIEW = localStorage.getItem("wbsf-view") || "signal"; } catch(e) {}
 
@@ -678,7 +679,7 @@ function section(title, meta, matches){            // matches: [{s, i}] already 
     else rest.push(x);
   }
   let body = top.map(x=>rowHTML(x.s,[x.i],x.m)).join("");
-  if (!body) body = `<div class="empty">Nothing in this mode at or above ${fmtTh()} right now.</div>`;
+  if (!body) body = `<div class="empty nosig"><b>No Signal</b> — nothing in this mode at or above ${fmtTh()} right now. Pick a lower Min SNR to see more.</div>`;
   if (rest.length){
     const bySrc = new Map(); for (const x of rest){ if(!bySrc.has(x.s.name)) bySrc.set(x.s.name,{s:x.s,m:x.m,its:[]}); bySrc.get(x.s.name).its.push(x.i); }
     const names = [...bySrc.values()].map(v=>v.s.name.replace(/ \(web\)/,""));
@@ -691,7 +692,7 @@ function fmtTh(){ return (THRESH>0?"+":"")+THRESH+" dB"; }
 function viewSignal(){
   const sig = SOURCES.filter(s=>s.cls==="signal").sort((a,b)=>b.snr-a.snr);
   let h = `<div class="chips">` + [{id:"all",name:"All modes"}].concat(MODES).map(m=>`<button data-m="${m.id}" class="${MODE===m.id?"on":""}">${esc(m.name.split(",")[0])}</button>`).join("") + `</div>`;
-  h += `<div class="ctl"><span>Min SNR</span>` + [0,2,3].map(v=>`<button data-th="${v}" class="${THRESH===v?"on":""}">${v>0?"+":""}${v} dB</button>`).join("") +
+  h += `<div class="ctl"><span>Min SNR</span>` + [0,1,2,3].map(v=>`<button data-th="${v}" class="${THRESH===v?"on":""}">${v>0?"+":""}${v} dB</button>`).join("") +
        `<span class="age">${sig.filter(s=>s.snr>=THRESH).length} of ${sig.length} sources · top ${MAXN} per mode</span></div>`;
   if (DATA.failed && SANDBOXED) h += `<div class="warn">You’re viewing a preview (for example inside OneDrive) that blocks live updates, so these are the headlines saved ${DATA.at?ago(DATA.at):"earlier"}. For live headlines and a working Refresh button, download this file and open it in Chrome, Edge or Safari on a computer.</div>`;
   else if (DATA.failed && !Object.keys(DATA.items||{}).length) h += `<div class="warn">Couldn’t reach the headline relay right now. Try Refresh in a minute.</div>`;
@@ -755,7 +756,7 @@ function render(){
   const v = {signal:viewSignal, noise:()=>viewList("noise"), prop:()=>viewList("propaganda"), all:viewAll, method:viewMethod}[VIEW] || viewSignal;
   $("#main").innerHTML = v();
   document.querySelectorAll(".chips button").forEach(b=>b.onclick=()=>{ MODE=b.dataset.m; render(); });
-  document.querySelectorAll(".ctl button").forEach(b=>b.onclick=()=>{ THRESH=+b.dataset.th; try{localStorage.setItem("wbsf-th",THRESH)}catch(e){} render(); });
+  document.querySelectorAll(".ctl button").forEach(b=>b.onclick=()=>{ THRESH=+b.dataset.th; try{localStorage.setItem("wbsf-th3",THRESH)}catch(e){} render(); });
 }
 document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{ VIEW=b.dataset.v; try{localStorage.setItem("wbsf-view",VIEW)}catch(e){} window.scrollTo(0,0); render(); });
 $("#refresh").onclick = refresh;
