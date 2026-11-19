@@ -26,6 +26,15 @@ main{max-width:1100px;margin:0 auto;padding:14px 12px 40px}
 .chips{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;-webkit-overflow-scrolling:touch}
 .chips button{flex:none;border:1px solid var(--line);background:#fff;border-radius:16px;padding:5px 11px;font-size:13px;cursor:pointer;color:var(--ink)}
 .chips button.on{background:var(--teal);color:#fff;border-color:var(--teal)}
+.ctl{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:0 0 12px;font-size:13px;color:var(--grey)}
+.ctl>span:first-child{font-weight:700;color:var(--ink)}
+.ctl button{border:1px solid var(--line);background:#fff;border-radius:14px;padding:3px 10px;font-size:12.5px;cursor:pointer;color:var(--ink)}
+.ctl button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+details.roll{border-top:1px solid #eef0f5}
+details.roll>summary{cursor:pointer;padding:9px 14px;color:var(--navy2);font-size:13.5px;font-weight:600;list-style:none}
+details.roll>summary::-webkit-details-marker{display:none}
+details.roll[open]>summary{background:#f7f8fb}
+details.roll .src{background:#fbfbfd}
 .mode{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:0 0 14px;overflow:hidden}
 .mhead{padding:10px 14px;background:linear-gradient(90deg,#e7f4f4,#fff);border-bottom:1px solid var(--line)}
 .mhead h2{margin:0;font:700 17px Cambria,Georgia,serif;color:var(--teal)}
@@ -592,13 +601,14 @@ const sleep = ms => new Promise(r=>setTimeout(r,ms));
 function fromSnap(S){ const items={}; if (S.i) for (const [k,v] of Object.entries(S.i)) items[k]=v.map(x=>({t:x[0], l:x[1], d:S.at-x[2]*6e4})); return items; }
 const SANDBOXED = (window.origin==="null" || location.protocol==="blob:" || location.protocol==="about:");
 let DATA = { at: SNAP.at || null, items: SNAP.i ? fromSnap(SNAP) : (SNAP.items || {}), live:false };
-let VIEW = "signal", MODE = "all";
+let VIEW = "signal", MODE = "all", THRESH = 2; const MAXN = 3;
+try { const v = localStorage.getItem("wbsf-th"); if (v !== null) THRESH = +v; } catch(e) {}
 try { const c = JSON.parse(localStorage.getItem("wbsf-cache")||"null"); if (c && c.at && (!DATA.at || c.at > DATA.at)) DATA = c; } catch(e) {}
 try { VIEW = localStorage.getItem("wbsf-view") || "signal"; } catch(e) {}
 
 function ago(t){ if(!t) return ""; const m=(Date.now()-t)/6e4; if(m<60) return Math.max(1,Math.round(m))+"m ago"; const h=m/60; if(h<48) return Math.round(h)+"h ago"; return Math.round(h/24)+"d ago"; }
 function clean(title, name){
-  let t = decode(title).replace(/\s+/g," ").trim();
+  let t = decode(decode(title)).replace(/\s+/g," ").trim();
   t = t.replace(/\s+[-–|]\s+(Reuters|AP News|Associated Press|CNN|NBC News|BBC( News)?|CBS News|The Wall Street Journal|WSJ|PBS|PBS News|MS NOW|Fox News)\s*$/i,"");
   return t;
 }
@@ -656,35 +666,48 @@ function stamp(){
   $("#stamp").textContent = msg + (DATA.failed && !SANDBOXED ? " · live update failed, showing the last good set" : "");
   $("#count").textContent = `${n}/${SOURCES.filter(s=>s.cls==="signal").length} high-SNR sources reporting · ${SOURCES.filter(s=>s.cls!=="signal").length} filtered out`;
 }
+function rowHTML(s, its, m){
+  const role = m && m.primary.includes(s.name) ? pill("pri","primary") : m && m.cross.includes(s.name) ? pill("x","cross-check") : "";
+  return `<div class="src"><div class="sline"><span class="sname">${esc(s.name)}</span>${role}${srcPills(s)}</div><ul class="h">` +
+    its.map(i=>`<li><a href="${esc(i.l)}" target="_blank" rel="noopener">${esc(i.t)}</a> <span class="age">${ago(i.d)}</span></li>`).join("") + `</ul></div>`;
+}
+function section(title, meta, matches){            // matches: [{s, i}] already in SNR order
+  const top = [], rest = [], seenSrc = new Set();
+  for (const x of matches){
+    if (top.length < MAXN && x.s.snr >= THRESH && !seenSrc.has(x.s.name) && (!x.i.d || Date.now()-x.i.d < 36*36e5)){ top.push(x); seenSrc.add(x.s.name); }
+    else rest.push(x);
+  }
+  let body = top.map(x=>rowHTML(x.s,[x.i],x.m)).join("");
+  if (!body) body = `<div class="empty">Nothing in this mode at or above ${fmtTh()} right now.</div>`;
+  if (rest.length){
+    const bySrc = new Map(); for (const x of rest){ if(!bySrc.has(x.s.name)) bySrc.set(x.s.name,{s:x.s,m:x.m,its:[]}); bySrc.get(x.s.name).its.push(x.i); }
+    const names = [...bySrc.values()].map(v=>v.s.name.replace(/ \(web\)/,""));
+    body += `<details class="roll"><summary>+ ${rest.length} more from ${names.length} source${names.length>1?"s":""} <span class="age">(${esc(names.slice(0,4).join(", "))}${names.length>4?", …":""})</span></summary>` +
+            [...bySrc.values()].map(v=>rowHTML(v.s,v.its.slice(0,3),v.m)).join("") + `</details>`;
+  }
+  return `<section class="mode"><div class="mhead"><h2>${esc(title)}</h2><div class="mmeta">${meta}</div></div>${body}</section>`;
+}
+function fmtTh(){ return (THRESH>0?"+":"")+THRESH+" dB"; }
 function viewSignal(){
   const sig = SOURCES.filter(s=>s.cls==="signal").sort((a,b)=>b.snr-a.snr);
   let h = `<div class="chips">` + [{id:"all",name:"All modes"}].concat(MODES).map(m=>`<button data-m="${m.id}" class="${MODE===m.id?"on":""}">${esc(m.name.split(",")[0])}</button>`).join("") + `</div>`;
+  h += `<div class="ctl"><span>Min SNR</span>` + [0,2,3].map(v=>`<button data-th="${v}" class="${THRESH===v?"on":""}">${v>0?"+":""}${v} dB</button>`).join("") +
+       `<span class="age">${sig.filter(s=>s.snr>=THRESH).length} of ${sig.length} sources · top ${MAXN} per mode</span></div>`;
   if (DATA.failed && SANDBOXED) h += `<div class="warn">You’re viewing a preview (for example inside OneDrive) that blocks live updates, so these are the headlines saved ${DATA.at?ago(DATA.at):"earlier"}. For live headlines and a working Refresh button, download this file and open it in Chrome, Edge or Safari on a computer.</div>`;
   else if (DATA.failed && !Object.keys(DATA.items||{}).length) h += `<div class="warn">Couldn’t reach the headline relay right now. Try Refresh in a minute.</div>`;
   const used = new Set();
   for (const m of MODES){
     if (MODE!=="all" && MODE!==m.id) continue;
-    let rows = "";
-    for (const s of sig){
-      const its = (DATA.items[s.name]||[]).filter(i=>m.kw.test(i.t) && !(MODE==="all" && used.has(i.l))).slice(0,3);
-      if (!its.length) continue;
-      its.forEach(i=>used.add(i.l));
-      const role = m.primary.includes(s.name) ? pill("pri","primary") : m.cross.includes(s.name) ? pill("x","cross-check") : "";
-      rows += `<div class="src"><div class="sline"><span class="sname">${esc(s.name)}</span>${role}${srcPills(s)}</div><ul class="h">` +
-        its.map(i=>`<li><a href="${esc(i.l)}" target="_blank" rel="noopener">${esc(i.t)}</a> <span class="age">${ago(i.d)}</span></li>`).join("") + `</ul></div>`;
-    }
-    h += `<section class="mode"><div class="mhead"><h2>${esc(m.name)}</h2><div class="mmeta">Seeker mode: ${esc(m.seeker)} · Primary: ${esc(m.primary.join(", "))} · Cross-check: ${esc(m.cross.join(", "))} · Fail-safe: ${esc(m.fail)}</div></div>` +
-         (rows || `<div class="empty">No matching headlines from high-SNR sources right now.</div>`) + `</section>`;
+    const matches = [];
+    for (const s of sig) for (const i of (DATA.items[s.name]||[])) if (m.kw.test(i.t) && !used.has(i.l)) matches.push({s,i,m});
+    const sec = section(m.name, `Seeker mode: ${esc(m.seeker)} · Primary: ${esc(m.primary.join(", "))} · Cross-check: ${esc(m.cross.join(", "))} · Fail-safe: ${esc(m.fail)}`, matches);
+    if (MODE==="all") { const seen=new Set(); for (const x of matches) if (x.s.snr>=THRESH && !seen.has(x.s.name) && seen.size<MAXN && (!x.i.d || Date.now()-x.i.d < 36*36e5)){ seen.add(x.s.name); used.add(x.i.l); } }
+    h += sec;
   }
   if (MODE==="all"){
-    let rows="";
-    for (const s of sig){
-      const its=(DATA.items[s.name]||[]).filter(i=>!used.has(i.l)).slice(0,2);
-      if(!its.length) continue;
-      rows += `<div class="src"><div class="sline"><span class="sname">${esc(s.name)}</span>${srcPills(s)}</div><ul class="h">` +
-        its.map(i=>`<li><a href="${esc(i.l)}" target="_blank" rel="noopener">${esc(i.t)}</a> <span class="age">${ago(i.d)}</span></li>`).join("") + `</ul></div>`;
-    }
-    if (rows) h += `<section class="mode"><div class="mhead"><h2>Other top stories</h2><div class="mmeta">Headlines from high-SNR sources that fit no mode above, ordered by SNR.</div></div>${rows}</section>`;
+    const matches = [];
+    for (const s of sig) for (const i of (DATA.items[s.name]||[])) if (!used.has(i.l) && !MODES.some(m=>m.kw.test(i.t))) matches.push({s,i});
+    if (matches.length) h += section("Other top stories", "Headlines that fit no mode above, ordered by SNR.", matches);
   }
   return h;
 }
@@ -715,7 +738,7 @@ function viewMethod(){
   <p><b>Signal-to-noise ratio.</b> SNR (dB) = 10·log<sub>10</sub>(R / (64 − R)), where R is Ad Fontes Media’s 0–64 reliability score. R = 32 gives 0 dB; above it there is more signal than noise.</p>
   <p><b>Drift</b> = |bias| / 42, as a percentage, the way a seeker measures boresight error. L or R gives the direction.</p>
   <p><b>Three classes.</b> Signal: SNR ≥ 0 dB (headlines shown). Noise: SNR &lt; 0 dB and drift &lt; 40% (muted). Propaganda, a coherent false signal: SNR &lt; 0 dB and drift ≥ 40% (rejected).</p>
-  <p><b>Modes.</b> As a missile seeker changes modes with the scene, the filter sorts live headlines into seven subject modes by keyword. Within each mode, sources are ordered by SNR, and each mode’s primary and cross-check sources are marked. Cross-checks are chosen so their drifts point in opposite directions and largely cancel.</p>
+  <p><b>Modes.</b> As a missile seeker changes modes with the scene, the filter sorts live headlines into seven subject modes by keyword. Within each mode, the three strongest headlines from the last 36 hours are shown, one per source, from sources at or above the Min SNR setting (default +2 dB); everything else is rolled up behind a “more” line you can open. Each mode’s primary and cross-check sources are marked. Cross-checks are chosen so their drifts point in opposite directions and largely cancel.</p>
   <p><b>Live updates.</b> Each time the page opens, and whenever you tap Refresh, it pulls the newest headlines from each high-SNR source’s public feed through a free relay (rss2json.com). No AI is involved: headlines appear exactly as each outlet wrote them. If the relay can’t be reached, the last good set is shown with its time.</p>
   <p><b>Norbert Wiener.</b> His 1942 filter, published in 1949, estimates a signal by weighting inputs according to their noise. In <i>Cybernetics</i> (1948) he called control of the means of communication the most important force working against a society’s ability to correct itself.</p>
   <p><b>Watch: what a missile seeker is and how it works.</b></p>
@@ -732,6 +755,7 @@ function render(){
   const v = {signal:viewSignal, noise:()=>viewList("noise"), prop:()=>viewList("propaganda"), all:viewAll, method:viewMethod}[VIEW] || viewSignal;
   $("#main").innerHTML = v();
   document.querySelectorAll(".chips button").forEach(b=>b.onclick=()=>{ MODE=b.dataset.m; render(); });
+  document.querySelectorAll(".ctl button").forEach(b=>b.onclick=()=>{ THRESH=+b.dataset.th; try{localStorage.setItem("wbsf-th",THRESH)}catch(e){} render(); });
 }
 document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{ VIEW=b.dataset.v; try{localStorage.setItem("wbsf-view",VIEW)}catch(e){} window.scrollTo(0,0); render(); });
 $("#refresh").onclick = refresh;
