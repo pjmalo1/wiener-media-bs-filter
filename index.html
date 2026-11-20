@@ -69,6 +69,8 @@ th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertic
 th{background:var(--navy);color:#fff;position:sticky;top:0}
 .tw{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
 .foot{font-size:12px;color:var(--grey);margin-top:16px}
+.legal{max-width:980px;margin:8px auto 28px;padding:12px 16px;font-size:12px;line-height:1.5;color:var(--grey);border-top:1px solid #dde2ec}
+.legal a{color:inherit}
 .warn{background:#fff8e6;border:1px solid #f3d38a;color:#6b4e00;border-radius:10px;padding:8px 12px;margin-bottom:12px;font-size:13.5px}
 @media (max-width:600px){h1{font-size:18px}.tag{display:none}#refresh{padding:8px 12px}.bars{grid-template-columns:54px 1fr 46px}}
 </style>
@@ -91,6 +93,7 @@ th{background:var(--navy);color:#fff;position:sticky;top:0}
   </nav>
 </header>
 <main id="main"></main>
+<footer class="legal"><b>Opinion, not fact-checking.</b> Ratings are the author’s opinion, calculated from <a href="https://adfontesmedia.com" target="_blank" rel="noopener">Ad Fontes Media</a>’s published reliability and bias scores and credited to them; this page is not affiliated with or endorsed by Ad Fontes Media. “Signal,” “BS (noise)” and “Propaganda” are measurement categories, not claims about any outlet’s motives or about the accuracy of any specific story. Headlines and links belong to their publishers. Free and non-commercial, with no ads.</footer>
 <script id="sources" type="application/json">[
  {
   "name": "Reuters",
@@ -805,8 +808,8 @@ function bars(s){
 function viewList(cls){
   const L = SOURCES.filter(s=>s.cls===cls).sort((a,b)=>b.snr-a.snr);
   const intro = cls==="noise"
-    ? `<div class="intro"><h2>BS list: noise</h2><p>Sources whose published reliability puts them below 0 dB, meaning more noise than signal, but whose drift is under 40%. In Wiener’s terms this is mostly <b>uncorrelated noise</b>: errors and opinion that don’t all point the same way, so averaging several sources reduces it. The filter mutes them by default. Read one only as a cross-check, never as a first source.</p></div>`
-    : `<div class="intro"><h2>Propaganda list: coherent false signal</h2><p>Sources below 0 dB <b>and</b> with drift of 40% or more. Their error is <b>correlated</b>: it points steadily in one direction, like a jammer transmitting a convincing false target. Averaging doesn’t remove a coherent bias, so the filter rejects these and, like a seeker’s home-on-jam mode, notes who is broadcasting. This is a measurement category, not a judgment of motives.</p></div>`;
+    ? `<div class="intro"><h2>BS list: noise</h2><p>Sources whose published reliability puts them below 0 dB, meaning more noise than signal, but whose drift is under 40%. In Wiener’s terms this is mostly <b>uncorrelated noise</b>: errors and opinion that don’t all point the same way, so averaging several sources reduces it. The filter mutes them by default. Read one only as a cross-check, never as a first source. This is a measurement category from published scores, not a judgment of motives or of any specific story.</p></div>`
+    : `<div class="intro"><h2>Propaganda list: coherent false signal</h2><p>Sources below 0 dB <b>and</b> with drift of 40% or more. Their error is <b>correlated</b>: it points steadily in one direction, like a jammer transmitting a convincing false target. Averaging doesn’t remove a coherent bias, so the filter rejects these and, like a seeker’s home-on-jam mode, notes who is broadcasting. This is a measurement category from published scores, not a judgment of motives or of any specific story.</p></div>`;
   return intro + `<div class="cards">` + L.map(s=>`<div class="card ${cls==="propaganda"?"prop":""}"><h3>${esc(s.name)}${s.est?" *":""}</h3>
     <div class="sline">${pill("", s.group)}${pill("", "score "+Math.round(s.fom))}</div>${bars(s)}
     <div style="font-size:13.5px">${esc(s.note)}</div><div style="font-size:12.5px;margin-top:6px"><a href="${esc(s.home)}" target="_blank" rel="noopener">Source site ↗</a></div></div>`).join("") + `</div>` +
@@ -833,7 +836,7 @@ function viewMethod(){
    <li><a href="https://www.youtube.com/watch?v=axPJcdvJxLs" target="_blank" rel="noopener">AIM-9 Sidewinder Infrared Seeker, in one minute</a> <span class="age">Military History in a Minute</span></li>
    <li><a href="https://www.youtube.com/watch?v=KBMU6l6GsdM" target="_blank" rel="noopener">Lockheed Martin Multiple Kill Vehicle (MKV-L) hover test, Dec. 2, 2008</a> <span class="age">Missile Defense Agency footage: the vehicle hovers and tracks a surrogate target</span></li>
   </ul>
-  <p class="foot">Ratings: Ad Fontes Media source pages (retrieved November 2026); Media Bias/Fact Check for Promethean Updates. A rating is a measurement of published content, not a verdict on any person’s motives. Built for “An Auto-Ranging Media BS Filter” by Peter Maloney.</p></div>`;
+  <p class="foot">Ratings: Ad Fontes Media source pages (retrieved November 2026); Media Bias/Fact Check for Promethean Updates. Ratings are the author’s opinion, calculated from published scores of content; they are not a verdict on any person’s motives or on any specific story. Not affiliated with or endorsed by Ad Fontes Media. Built for “An Auto-Ranging Media BS Filter” by Peter Maloney.</p></div>`;
 }
 function render(){
   stamp();
