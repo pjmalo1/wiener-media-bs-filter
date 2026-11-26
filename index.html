@@ -94,8 +94,8 @@ th{background:var(--navy);color:#fff;position:sticky;top:0}
   </div>
   <div class="status"><span id="stamp">Loading…</span><span id="count"></span></div>
   <nav id="tabs">
-    <button data-v="signal" class="on">Signal by mode</button>
-    <button data-v="stories">Confirmed stories</button>
+    <button data-v="stories" class="on">Confirmed news</button>
+    <button data-v="signal">Signal by mode</button>
     <button data-v="noise">BS list (noise)</button>
     <button data-v="prop">Propaganda list</button>
     <button data-v="all">All sources</button>
@@ -1359,10 +1359,10 @@ function learn(){
 function fromSnap(S){ const items={}; if (S.i) for (const [k,v] of Object.entries(S.i)) items[k]=v.map(x=>({t:x[0], l:x[1], d:S.at-x[2]*6e4})); return items; }
 const SANDBOXED = (window.origin==="null" || location.protocol==="blob:" || location.protocol==="about:");
 let DATA = { at: SNAP.at || null, items: SNAP.i ? fromSnap(SNAP) : (SNAP.items || {}), live:false };
-let VIEW = "signal", MODE = "all", THRESH = 3; const MAXN = 3;
+let VIEW = "stories", MODE = "all", THRESH = 3; const MAXN = 3;
 try { const v = localStorage.getItem("wbsf-th3"); if (v !== null) THRESH = +v; } catch(e) {}
 try { const c = JSON.parse(localStorage.getItem("wbsf-cache")||"null"); if (c && c.at && (!DATA.at || c.at > DATA.at)) DATA = c; } catch(e) {}
-try { VIEW = localStorage.getItem("wbsf-view") || "signal"; } catch(e) {}
+// The page always opens on Confirmed news.
 
 function ago(t){ if(!t) return ""; const m=(Date.now()-t)/6e4; if(m<60) return Math.max(1,Math.round(m))+"m ago"; const h=m/60; if(h<48) return Math.round(h)+"h ago"; return Math.round(h/24)+"d ago"; }
 function clean(title, name){
@@ -1483,7 +1483,7 @@ function viewSignal(){
 }
 function viewStories(){
   const multi = STORIES.filter(st=>st.n>=2), single = STORIES.filter(st=>st.n<2).length;
-  let h = `<div class="intro"><h2>Confirmed stories</h2><p>Headlines from the signal sources are grouped into stories by the words they share, with rare words counting most. Near-identical copy (the same wire text republished) counts once. Each story’s <b>evidence</b> is the sum of its independent outlets’ log-odds in dB, so three +3 dB outlets give about +9 dB. Stories are ranked by that sum. <b>One-sided</b> means every outlet carrying it leans the same way outside Ad Fontes’ “middle” band (±6), with no middle or other-side outlet confirming it yet.</p></div>`;
+  let h = `<div class="intro"><h2>Confirmed news</h2><p>Headlines from the signal sources are grouped into stories by the words they share, with rare words counting most. Near-identical copy (the same wire text republished) counts once. Each story’s <b>evidence</b> is the sum of its independent outlets’ log-odds in dB, so three +3 dB outlets give about +9 dB. Stories are ranked by that sum. <b>One-sided</b> means every outlet carrying it leans the same way outside Ad Fontes’ “middle” band (±6), with no middle or other-side outlet confirming it yet.</p></div>`;
   if (!multi.length) return h + `<div class="empty">No story is carried by two or more independent signal sources in the last 36 hours yet.</div>`;
   h += `<section class="mode">` + multi.slice(0,25).map(st=>{
     const lead = st.ind[0];
@@ -1557,12 +1557,12 @@ function render(){
   runFusion();
   stamp();
   document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on", b.dataset.v===VIEW));
-  const v = {signal:viewSignal, stories:viewStories, noise:()=>viewList("noise"), prop:()=>viewList("propaganda"), all:viewAll, method:viewMethod}[VIEW] || viewSignal;
+  const v = {signal:viewSignal, stories:viewStories, noise:()=>viewList("noise"), prop:()=>viewList("propaganda"), all:viewAll, method:viewMethod}[VIEW] || viewStories;
   $("#main").innerHTML = v();
   document.querySelectorAll(".chips button").forEach(b=>b.onclick=()=>{ MODE=b.dataset.m; render(); });
   document.querySelectorAll(".ctl button").forEach(b=>b.onclick=()=>{ THRESH=+b.dataset.th; try{localStorage.setItem("wbsf-th3",THRESH)}catch(e){} render(); });
 }
-document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{ VIEW=b.dataset.v; try{localStorage.setItem("wbsf-view",VIEW)}catch(e){} window.scrollTo(0,0); render(); });
+document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{ VIEW=b.dataset.v; window.scrollTo(0,0); render(); });
 $("#refresh").onclick = refresh;
 render();
 refresh();
