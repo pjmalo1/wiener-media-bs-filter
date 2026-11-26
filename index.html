@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Wiener Media BS Filter</title>
+<title>Cybernetic News Filter</title>
 <style>
 :root{--navy:#14215c;--navy2:#1e2f7a;--ink:#1c2233;--grey:#5d6475;--line:#dfe3ec;--bg:#f4f6fa;--card:#fff;--teal:#0b8a8a;--amber:#f2a541;--orange:#e06a1b;--red:#c62828;--green:#2e7d32}
 *{box-sizing:border-box}
@@ -72,6 +72,15 @@ th{background:var(--navy);color:#fff;position:sticky;top:0}
 .legal{max-width:980px;margin:8px auto 28px;padding:12px 16px;font-size:12px;line-height:1.5;color:var(--grey);border-top:1px solid #dde2ec}
 .legal a{color:inherit}
 .warn{background:#fff8e6;border:1px solid #f3d38a;color:#6b4e00;border-radius:10px;padding:8px 12px;margin-bottom:12px;font-size:13.5px}
+.pill.ok{background:#e3f2e5;color:var(--green);font-weight:700}
+.pill.one{background:#fff3e0;color:var(--orange)}
+.pill.dis{background:#fdeaea;color:var(--red)}
+.story{padding:10px 14px;border-top:1px solid #eef0f5}
+.story:first-of-type{border-top:0}
+.story .lead{font-weight:600}
+.story ul.h li{font-size:13.5px}
+.ev{font:700 13px ui-monospace,Menlo,Consolas,monospace;color:var(--navy)}
+.prob{font-size:12.5px;color:var(--grey);margin:2px 0 6px}
 @media (max-width:600px){h1{font-size:18px}.tag{display:none}#refresh{padding:8px 12px}.bars{grid-template-columns:54px 1fr 46px}}
 </style>
 </head>
@@ -79,13 +88,14 @@ th{background:var(--navy);color:#fff;position:sticky;top:0}
 <header>
   <div class="hrow">
     <div class="logo"><svg viewBox="0 0 24 24"><path d="M3 4h18l-7 8.5V19l-4 2v-8.5z"/></svg></div>
-    <div><h1>Wiener Media BS Filter</h1><div class="tag">signal + noise in, signal out</div></div>
+    <div><h1>Cybernetic News Filter</h1><div class="tag">signal + noise in, signal out</div></div>
     <div class="spacer"></div>
     <button id="refresh" type="button">↻ Refresh</button>
   </div>
   <div class="status"><span id="stamp">Loading…</span><span id="count"></span></div>
   <nav id="tabs">
     <button data-v="signal" class="on">Signal by mode</button>
+    <button data-v="stories">Confirmed stories</button>
     <button data-v="noise">BS list (noise)</button>
     <button data-v="prop">Propaganda list</button>
     <button data-v="all">All sources</button>
@@ -93,570 +103,1149 @@ th{background:var(--navy);color:#fff;position:sticky;top:0}
   </nav>
 </header>
 <main id="main"></main>
-<footer class="legal"><b>Opinion, not fact-checking.</b> Ratings are the author’s opinion, calculated from <a href="https://adfontesmedia.com" target="_blank" rel="noopener">Ad Fontes Media</a>’s published reliability and bias scores and credited to them; this page is not affiliated with or endorsed by Ad Fontes Media. “Signal,” “BS (noise)” and “Propaganda” are measurement categories, not claims about any outlet’s motives or about the accuracy of any specific story. Headlines and links belong to their publishers. Free and non-commercial, with no ads.</footer>
+<footer class="legal"><b>Opinion, not fact-checking.</b> Ratings are the author’s opinion, calculated from <a href="https://adfontesmedia.com" target="_blank" rel="noopener">Ad Fontes Media</a>’s and <a href="https://mediabiasfactcheck.com" target="_blank" rel="noopener">Media Bias/Fact Check</a>’s published ratings and credited to them; this page is not affiliated with or endorsed by either. “Signal,” “BS (noise)” and “Propaganda” are measurement categories, not claims about any outlet’s motives or about the accuracy of any specific story. Headlines and links belong to their publishers. Free and non-commercial, with no ads.</footer>
 <script id="sources" type="application/json">[
  {
   "name": "Reuters",
   "est": false,
   "group": "mainstream",
-  "snr": 3.73,
-  "drift": 3.3,
+  "snr": 4.19,
+  "drift": 5.9,
   "dir": "L",
   "bias": -1.39,
   "rel_af": 44.95,
   "relevance": 8,
   "scope": 10,
-  "fom": 86.9,
   "feed": "N:site:reuters.com",
   "home": "https://www.reuters.com",
   "cls": "signal",
-  "note": "Global wire service; terse, fact-dense copy with few adjectives; strongest on markets and world news."
+  "note": "Global wire service; terse, fact-dense copy with few adjectives; strongest on markets and world news.",
+  "mbfc": {
+   "fact": "Very High",
+   "fn": 0.0,
+   "bias": "Least Biased",
+   "bn": -0.5,
+   "via": null,
+   "R": 47.7,
+   "B": -3.6
+  },
+  "snr_af": 3.73,
+  "R": 46.3,
+  "sR": 2.9,
+  "B": -2.5,
+  "sB": 2.4,
+  "snr_lo": 3.25,
+  "snr_hi": 5.23,
+  "p_sig": 1.0,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "AP",
   "est": false,
   "group": "mainstream",
-  "snr": 3.51,
-  "drift": 6.3,
+  "snr": 3.57,
+  "drift": 11.9,
   "dir": "L",
   "bias": -2.65,
   "rel_af": 44.28,
   "relevance": 8,
   "scope": 10,
-  "fom": 85.4,
   "feed": "N:site:apnews.com",
   "home": "https://apnews.com",
   "cls": "signal",
-  "note": "Wire service whose reporting feeds thousands of outlets; the best first source for breaking facts."
+  "note": "Wire service whose reporting feeds thousands of outlets; the best first source for breaking facts.",
+  "mbfc": {
+   "fact": "High",
+   "fn": 0.8,
+   "bias": "Left-Center",
+   "bn": -2.1,
+   "via": null,
+   "R": 44.6,
+   "B": -7.4
+  },
+  "snr_af": 3.51,
+  "R": 44.5,
+  "sR": 2.9,
+  "B": -5.0,
+  "sB": 2.4,
+  "snr_lo": 2.68,
+  "snr_hi": 4.54,
+  "p_sig": 1.0,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "BBC",
   "est": false,
   "group": "mainstream",
-  "snr": 3.6,
-  "drift": 3.0,
-  "dir": "L",
+  "snr": 2.83,
+  "drift": 0.2,
+  "dir": "C",
   "bias": -1.27,
   "rel_af": 44.54,
   "relevance": 8,
   "scope": 9,
-  "fom": 84.9,
   "feed": "https://feeds.bbci.co.uk/news/rss.xml",
   "home": "https://www.bbc.com/news",
   "cls": "signal",
-  "note": "Largest international bureau network; a British vantage point, so U.S. politics gets less depth."
+  "note": "Largest international bureau network; a British vantage point, so U.S. politics gets less depth.",
+  "mbfc": {
+   "fact": "Mostly factual",
+   "fn": 2.1,
+   "bias": "Least Biased",
+   "bn": 1.5,
+   "via": null,
+   "R": 39.6,
+   "B": 1.1
+  },
+  "snr_af": 3.6,
+  "R": 42.1,
+  "sR": 2.9,
+  "B": -0.1,
+  "sB": 2.4,
+  "snr_lo": 1.98,
+  "snr_hi": 3.73,
+  "p_sig": 1.0,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "CBS News (web)",
   "est": false,
   "group": "mainstream",
-  "snr": 2.83,
-  "drift": 6.2,
-  "dir": "L",
+  "snr": 1.51,
+  "drift": 0.2,
+  "dir": "C",
   "bias": -2.62,
   "rel_af": 42.06,
   "relevance": 8,
   "scope": 9,
-  "fom": 81.0,
   "feed": "https://www.cbsnews.com/latest/rss/main",
   "home": "https://www.cbsnews.com",
   "cls": "signal",
-  "note": "Rated \u2018middle\u2019 and reliable; Bari Weiss became editor-in-chief after Paramount bought The Free Press."
+  "note": "Rated ‘middle’ and reliable; Bari Weiss became editor-in-chief after Paramount bought The Free Press.",
+  "mbfc": {
+   "fact": "Mostly factual",
+   "fn": 3.8,
+   "bias": "Right-Center",
+   "bn": 2.2,
+   "via": null,
+   "R": 33.0,
+   "B": 2.8
+  },
+  "snr_af": 2.83,
+  "R": 37.5,
+  "sR": 2.9,
+  "B": 0.1,
+  "sB": 2.4,
+  "snr_lo": 0.71,
+  "snr_hi": 2.34,
+  "p_sig": 0.97,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "WSJ",
   "est": false,
   "group": "mainstream",
-  "snr": 2.93,
-  "drift": 10.1,
+  "snr": 2.34,
+  "drift": 14.0,
   "dir": "R",
   "bias": 4.24,
   "rel_af": 42.41,
   "relevance": 8,
   "scope": 8,
-  "fom": 79.2,
   "feed": "https://feeds.content.dowjones.io/public/rss/RSSWorldNews",
   "home": "https://www.wsj.com",
   "cls": "signal",
-  "note": "News pages rate near center while opinion pages lean right; essential for the economy; paywalled."
+  "note": "News pages rate near center while opinion pages lean right; essential for the economy; paywalled.",
+  "mbfc": {
+   "fact": "Mostly factual",
+   "fn": 2.4,
+   "bias": "Right-Center",
+   "bn": 4.2,
+   "via": null,
+   "R": 38.4,
+   "B": 7.5
+  },
+  "snr_af": 2.93,
+  "R": 40.4,
+  "sR": 2.9,
+  "B": 5.9,
+  "sB": 2.4,
+  "snr_lo": 1.51,
+  "snr_hi": 3.21,
+  "p_sig": 1.0,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "NPR (web)",
   "est": false,
   "group": "mainstream",
-  "snr": 3.01,
-  "drift": 10.4,
+  "snr": 3.25,
+  "drift": 16.0,
   "dir": "L",
   "bias": -4.38,
   "rel_af": 42.67,
   "relevance": 7,
   "scope": 8,
-  "fom": 78.0,
   "feed": "https://feeds.npr.org/1001/rss.xml",
   "home": "https://www.npr.org",
   "cls": "signal",
-  "note": "High reliability with a modest left lean in Ad Fontes\u2019 ratings; strong explanatory reporting."
+  "note": "High reliability with a modest left lean in Ad Fontes’ ratings; strong explanatory reporting.",
+  "mbfc": {
+   "fact": "High",
+   "fn": 0.9,
+   "bias": "Left-Center",
+   "bn": -2.8,
+   "via": null,
+   "R": 44.2,
+   "B": -9.0
+  },
+  "snr_af": 3.01,
+  "R": 43.5,
+  "sR": 2.9,
+  "B": -6.7,
+  "sB": 2.4,
+  "snr_lo": 2.38,
+  "snr_hi": 4.19,
+  "p_sig": 1.0,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "NY Times",
   "est": false,
   "group": "mainstream",
-  "snr": 2.46,
-  "drift": 18.6,
+  "snr": 2.68,
+  "drift": 23.7,
   "dir": "L",
   "bias": -7.81,
   "rel_af": 40.83,
   "relevance": 7,
   "scope": 9,
-  "fom": 75.5,
   "feed": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
   "home": "https://www.nytimes.com",
   "cls": "signal",
-  "note": "Deep investigative resources; Ad Fontes attributes much of its left skew to opinion content."
+  "note": "Deep investigative resources; Ad Fontes attributes much of its left skew to opinion content.",
+  "mbfc": {
+   "fact": "High",
+   "fn": 1.4,
+   "bias": "Left-Center",
+   "bn": -4.1,
+   "via": null,
+   "R": 42.3,
+   "B": -12.1
+  },
+  "snr_af": 2.46,
+  "R": 41.6,
+  "sR": 2.9,
+  "B": -9.9,
+  "sB": 2.4,
+  "snr_lo": 1.84,
+  "snr_hi": 3.57,
+  "p_sig": 1.0,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "CNN (web)",
   "est": false,
   "group": "mainstream",
-  "snr": 2.78,
-  "drift": 14.9,
+  "snr": 2.09,
+  "drift": 20.4,
   "dir": "L",
   "bias": -6.26,
   "rel_af": 41.9,
   "relevance": 6,
   "scope": 8,
-  "fom": 74.6,
   "feed": "N:site:cnn.com",
   "home": "https://www.cnn.com",
   "cls": "signal",
-  "note": "The website rates far better than several CNN TV shows \u2014 check which channel you are on."
+  "note": "The website rates far better than several CNN TV shows — check which channel you are on.",
+  "mbfc": {
+   "fact": "Mostly factual",
+   "fn": 2.7,
+   "bias": "Left-Center",
+   "bn": -3.6,
+   "via": null,
+   "R": 37.2,
+   "B": -10.9
+  },
+  "snr_af": 2.78,
+  "R": 39.6,
+  "sR": 2.9,
+  "B": -8.6,
+  "sB": 2.4,
+  "snr_lo": 1.28,
+  "snr_hi": 2.95,
+  "p_sig": 1.0,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "PBS NewsHour",
   "est": false,
   "group": "mainstream",
-  "snr": 2.81,
-  "drift": 23.7,
+  "snr": 3.09,
+  "drift": 21.5,
   "dir": "L",
   "bias": -9.97,
   "rel_af": 42.0,
   "relevance": 8,
   "scope": 7,
-  "fom": 74.5,
   "feed": "https://www.pbs.org/newshour/feeds/rss/headlines",
   "home": "https://www.pbs.org/newshour",
   "cls": "signal",
-  "note": "Long interviews with both sides; rated \u2018skews left\u2019 on bias but reliable on content."
+  "note": "Long interviews with both sides; rated ‘skews left’ on bias but reliable on content.",
+  "mbfc": {
+   "fact": "High",
+   "fn": 1.0,
+   "bias": "Left-Center",
+   "bn": -2.4,
+   "via": null,
+   "R": 43.8,
+   "B": -8.1
+  },
+  "snr_af": 2.81,
+  "R": 42.9,
+  "sR": 2.9,
+  "B": -9.0,
+  "sB": 2.4,
+  "snr_lo": 2.23,
+  "snr_hi": 4.01,
+  "p_sig": 1.0,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "Washington Post",
   "est": false,
   "group": "mainstream",
-  "snr": 1.82,
-  "drift": 16.5,
+  "snr": 1.96,
+  "drift": 21.3,
   "dir": "L",
   "bias": -6.95,
   "rel_af": 38.62,
   "relevance": 7,
   "scope": 7,
-  "fom": 70.3,
   "feed": "https://feeds.washingtonpost.com/rss/national",
   "home": "https://www.washingtonpost.com",
   "cls": "signal",
-  "note": "Reliability now in the \u2018analysis\u2019 band; its owner began repositioning the opinion section in 2025."
+  "note": "Reliability now in the ‘analysis’ band; its owner began repositioning the opinion section in 2025.",
+  "mbfc": {
+   "fact": "Mostly factual",
+   "fn": 2.1,
+   "bias": "Left-Center",
+   "bn": -3.6,
+   "via": null,
+   "R": 39.6,
+   "B": -10.9
+  },
+  "snr_af": 1.82,
+  "R": 39.1,
+  "sR": 2.9,
+  "B": -8.9,
+  "sB": 2.4,
+  "snr_lo": 1.15,
+  "snr_hi": 2.8,
+  "p_sig": 0.99,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "Meet the Press",
   "est": false,
   "group": "mainstream",
-  "snr": 1.94,
-  "drift": 21.3,
+  "snr": 2.33,
+  "drift": 22.4,
   "dir": "L",
   "bias": -8.94,
   "rel_af": 39.03,
   "relevance": 7,
   "scope": 7,
-  "fom": 69.8,
   "feed": "https://feeds.nbcnews.com/nbcnews/public/meet-the-press",
   "home": "https://www.nbcnews.com/meet-the-press",
   "cls": "signal",
-  "note": "Longest-running show in TV history; long newsmaker interviews \u2014 good for what officials say, less for checking it."
+  "note": "Longest-running show in TV history; long newsmaker interviews — good for what officials say, less for checking it.",
+  "mbfc": {
+   "fact": "High",
+   "fn": null,
+   "bias": "Left-Center",
+   "bn": null,
+   "via": "NBC News (parent network)",
+   "R": 43.8,
+   "B": -10.7
+  },
+  "snr_af": 1.94,
+  "R": 40.4,
+  "sR": 3.5,
+  "B": -9.4,
+  "sB": 2.9,
+  "snr_lo": 1.34,
+  "snr_hi": 3.38,
+  "p_sig": 0.99,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "60 Minutes",
   "est": false,
   "group": "mainstream",
-  "snr": 0.81,
-  "drift": 23.3,
+  "snr": 0.62,
+  "drift": 13.3,
   "dir": "L",
   "bias": -9.79,
   "rel_af": 34.96,
   "relevance": 7,
   "scope": 6,
-  "fom": 63.2,
   "feed": "https://www.cbsnews.com/latest/rss/60-minutes",
   "home": "https://www.cbsnews.com/60-minutes/",
   "cls": "signal",
-  "note": "Long-form investigations in the \u2018analysis\u2019 band with a left skew; Ad Fontes rated both edits of its Trump interview."
+  "note": "Long-form investigations in the ‘analysis’ band with a left skew; Ad Fontes rated both edits of its Trump interview.",
+  "mbfc": {
+   "fact": "Mostly factual",
+   "fn": 3.8,
+   "bias": "Right-Center",
+   "bn": 2.2,
+   "via": "CBS News (parent network)",
+   "R": 33.0,
+   "B": 2.8
+  },
+  "snr_af": 0.81,
+  "R": 34.3,
+  "sR": 3.3,
+  "B": -5.6,
+  "sB": 2.8,
+  "snr_lo": -0.28,
+  "snr_hi": 1.55,
+  "p_sig": 0.75,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "Fox News (web)",
   "est": false,
   "group": "mainstream",
-  "snr": 0.49,
-  "drift": 27.2,
+  "snr": -1.38,
+  "drift": 32.6,
   "dir": "R",
   "bias": 11.42,
   "rel_af": 33.82,
   "relevance": 5,
   "scope": 7,
-  "fom": 59.6,
   "feed": "https://moxie.foxnews.com/google-publisher/latest.xml",
   "home": "https://www.foxnews.com",
-  "cls": "signal",
-  "note": "Skews right with mixed reliability, yet Special Report with Bret Baier rates in Ad Fontes\u2019 top box."
+  "cls": "noise",
+  "note": "Ad Fontes rates the site 33.8, just above even odds; Media Bias/Fact Check rates it Low factual. The two raters disagree by more than their usual spread, and fused it falls below 0 dB. Special Report with Bret Baier still rates in Ad Fontes’ top box.",
+  "mbfc": {
+   "fact": "Low",
+   "fn": 7.1,
+   "bias": "Right",
+   "bn": 7.8,
+   "via": null,
+   "R": 20.1,
+   "B": 16.0
+  },
+  "snr_af": 0.49,
+  "R": 27.0,
+  "sR": 2.9,
+  "B": 13.7,
+  "sB": 2.4,
+  "snr_lo": -2.19,
+  "snr_hi": -0.58,
+  "p_sig": 0.04,
+  "p_prop": 0.04,
+  "disagree": true
  },
  {
   "name": "MS NOW (web)",
   "est": false,
   "group": "mainstream",
-  "snr": 0.64,
-  "drift": 32.7,
+  "snr": -0.31,
+  "drift": 37.9,
   "dir": "L",
   "bias": -13.73,
   "rel_af": 34.35,
   "relevance": 4,
   "scope": 5,
-  "fom": 54.6,
   "feed": "https://www.ms.now/feeds/latest",
   "home": "https://www.ms.now",
-  "cls": "signal",
-  "note": "Strong left lean; several prime-time shows rate lower still (All In with Chris Hayes: 23.1)."
+  "cls": "noise",
+  "note": "Ad Fontes 34.4, Media Bias/Fact Check Mixed factual; fused it sits just below 0 dB, so the call is close. Several prime-time shows rate lower still (All In with Chris Hayes: 23.1).",
+  "mbfc": {
+   "fact": "Mixed",
+   "fn": null,
+   "bias": "Left",
+   "bn": null,
+   "via": null,
+   "R": 26.3,
+   "B": -18.9
+  },
+  "snr_af": 0.64,
+  "R": 30.9,
+  "sR": 3.1,
+  "B": -15.9,
+  "sB": 2.6,
+  "snr_lo": -1.15,
+  "snr_hi": 0.53,
+  "p_sig": 0.36,
+  "p_prop": 0.14,
+  "disagree": false
  },
  {
   "name": "ABC This Week",
   "est": false,
   "group": "mainstream",
-  "snr": -1.79,
-  "drift": 23.6,
+  "snr": -0.39,
+  "drift": 24.1,
   "dir": "L",
   "bias": -9.9,
   "rel_af": 25.48,
   "relevance": 5,
   "scope": 6,
-  "fom": 49.3,
   "feed": null,
   "home": "https://abcnews.go.com/ThisWeek",
   "cls": "noise",
-  "note": "Panel-driven Sunday show: reliability 25.5, far below ABC\u2019s own news website (42.8) \u2014 opinion pulls it down."
+  "note": "Panel-driven Sunday show: reliability 25.5, far below ABC’s own news website (42.8) — opinion pulls it down.",
+  "mbfc": {
+   "fact": "High",
+   "fn": null,
+   "bias": "Left-Center",
+   "bn": null,
+   "via": "ABC News (parent network)",
+   "R": 43.8,
+   "B": -10.7
+  },
+  "snr_af": -1.79,
+  "R": 30.6,
+  "sR": 3.5,
+  "B": -10.1,
+  "sB": 2.9,
+  "snr_lo": -1.34,
+  "snr_hi": 0.56,
+  "p_sig": 0.34,
+  "p_prop": 0.0,
+  "disagree": true
  },
  {
   "name": "Newsmax (web)",
   "est": false,
   "group": "mainstream",
-  "snr": -1.01,
-  "drift": 31.9,
+  "snr": -1.12,
+  "drift": 33.9,
   "dir": "R",
   "bias": 13.4,
   "rel_af": 28.3,
   "relevance": 3,
   "scope": 4,
-  "fom": 44.9,
   "feed": null,
   "home": "https://www.newsmax.com",
   "cls": "noise",
-  "note": "Lowest mainstream score; several of its shows fall in the \u2018unreliable\u2019 band \u2014 use only as a check."
+  "note": "Lowest mainstream score; several of its shows fall in the ‘unreliable’ band — use only as a check.",
+  "mbfc": {
+   "fact": "Mixed",
+   "fn": 5.2,
+   "bias": "Right",
+   "bn": 7.4,
+   "via": null,
+   "R": 27.5,
+   "B": 15.1
+  },
+  "snr_af": -1.01,
+  "R": 27.9,
+  "sR": 2.9,
+  "B": 14.2,
+  "sB": 2.4,
+  "snr_lo": -1.93,
+  "snr_hi": -0.33,
+  "p_sig": 0.08,
+  "p_prop": 0.05,
+  "disagree": false
  },
  {
   "name": "Tangle",
   "est": false,
   "group": "independent",
-  "snr": 3.03,
-  "drift": 1.3,
+  "snr": 3.2,
+  "drift": 2.1,
   "dir": "L",
   "bias": -0.56,
   "rel_af": 42.73,
   "relevance": 8,
   "scope": 6,
-  "fom": 78.4,
   "feed": "https://www.readtangle.com/feed",
   "home": "https://www.readtangle.com",
   "cls": "signal",
-  "note": "Gives the best left and right arguments on one story each day, then a clearly labeled take."
+  "note": "Gives the best left and right arguments on one story each day, then a clearly labeled take.",
+  "mbfc": {
+   "fact": "High",
+   "fn": 1.0,
+   "bias": "Least Biased",
+   "bn": 0.5,
+   "via": null,
+   "R": 43.8,
+   "B": -1.2
+  },
+  "snr_af": 3.03,
+  "R": 43.3,
+  "sR": 2.9,
+  "B": -0.9,
+  "sB": 2.4,
+  "snr_lo": 2.33,
+  "snr_hi": 4.14,
+  "p_sig": 1.0,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "The Dispatch",
   "est": false,
   "group": "independent",
-  "snr": 2.53,
-  "drift": 13.1,
+  "snr": 2.89,
+  "drift": 13.4,
   "dir": "R",
   "bias": 5.5,
   "rel_af": 41.08,
   "relevance": 7,
   "scope": 5,
-  "fom": 70.9,
   "feed": "https://thedispatch.com/feed/",
   "home": "https://thedispatch.com",
   "cls": "signal",
-  "note": "Openly center-right and fact-dense; strongest on politics and policy, thinner elsewhere."
+  "note": "Openly center-right and fact-dense; strongest on politics and policy, thinner elsewhere.",
+  "mbfc": {
+   "fact": "High",
+   "fn": null,
+   "bias": "Right-Center",
+   "bn": null,
+   "via": null,
+   "R": 43.8,
+   "B": 5.8
+  },
+  "snr_af": 2.53,
+  "R": 42.3,
+  "sR": 3.1,
+  "B": 5.6,
+  "sB": 2.6,
+  "snr_lo": 1.99,
+  "snr_hi": 3.86,
+  "p_sig": 1.0,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "Glenn Greenwald",
   "est": false,
   "group": "independent",
-  "snr": 1.12,
-  "drift": 12.7,
+  "snr": 0.58,
+  "drift": 11.1,
   "dir": "R",
   "bias": 5.33,
   "rel_af": 36.12,
   "relevance": 5,
   "scope": 4,
-  "fom": 60.6,
   "feed": "https://greenwald.substack.com/feed",
   "home": "https://greenwald.substack.com",
   "cls": "signal",
-  "note": "Strong on surveillance and civil-liberties stories others underplay; adversarial to both parties."
+  "note": "Strong on surveillance and civil-liberties stories others underplay; adversarial to both parties.",
+  "mbfc": {
+   "fact": "Mostly factual",
+   "fn": 4.0,
+   "bias": "Right-Center",
+   "bn": 2.7,
+   "via": null,
+   "R": 32.2,
+   "B": 4.0
+  },
+  "snr_af": 1.12,
+  "R": 34.2,
+  "sR": 2.9,
+  "B": 4.6,
+  "sB": 2.4,
+  "snr_lo": -0.2,
+  "snr_hi": 1.38,
+  "p_sig": 0.77,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "The Bulwark",
   "est": false,
   "group": "independent",
-  "snr": 0.64,
-  "drift": 12.3,
-  "dir": "L",
+  "snr": 1.96,
+  "drift": 1.4,
+  "dir": "R",
   "bias": -5.17,
   "rel_af": 34.37,
   "relevance": 5,
   "scope": 4,
-  "fom": 58.7,
   "feed": "https://www.thebulwark.com/feed",
   "home": "https://www.thebulwark.com",
   "cls": "signal",
-  "note": "Anti-Trump center-right site rated \u2018middle\u2019, but its daily podcast rates strong left \u2014 format matters."
+  "note": "Anti-Trump center-right site rated ‘middle’, but its daily podcast rates strong left — format matters.",
+  "mbfc": {
+   "fact": "High",
+   "fn": 1.0,
+   "bias": "Right-Center",
+   "bn": 3.7,
+   "via": null,
+   "R": 43.8,
+   "B": 6.3
+  },
+  "snr_af": 0.64,
+  "R": 39.1,
+  "sR": 2.9,
+  "B": 0.6,
+  "sB": 2.4,
+  "snr_lo": 1.15,
+  "snr_hi": 2.81,
+  "p_sig": 0.99,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "The Free Press",
   "est": false,
   "group": "independent",
-  "snr": -0.91,
-  "drift": 16.6,
+  "snr": -1.18,
+  "drift": 15.5,
   "dir": "R",
   "bias": 6.98,
   "rel_af": 28.67,
   "relevance": 6,
   "scope": 6,
-  "fom": 55.9,
   "feed": null,
   "home": "https://www.thefp.com",
   "cls": "noise",
-  "note": "Heterodox reporting plus opinion; skews right, opinion band (Ad Fontes score is about a year old)."
+  "note": "Heterodox reporting plus opinion; skews right, opinion band (Ad Fontes score is about a year old).",
+  "mbfc": {
+   "fact": "Mixed",
+   "fn": null,
+   "bias": "Right-Center",
+   "bn": null,
+   "via": null,
+   "R": 26.3,
+   "B": 5.8
+  },
+  "snr_af": -0.91,
+  "R": 27.7,
+  "sR": 3.1,
+  "B": 6.5,
+  "sB": 2.6,
+  "snr_lo": -2.05,
+  "snr_hi": -0.34,
+  "p_sig": 0.08,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "Letters from an American",
   "est": false,
   "group": "independent",
-  "snr": -1.23,
-  "drift": 33.7,
+  "snr": 0.71,
+  "drift": 38.5,
   "dir": "L",
   "bias": -14.14,
   "rel_af": 27.5,
   "relevance": 6,
   "scope": 4,
-  "fom": 48.1,
-  "feed": null,
+  "feed": "https://heathercoxrichardson.substack.com/feed",
   "home": "https://heathercoxrichardson.substack.com",
-  "cls": "noise",
-  "note": "A historian\u2019s daily context; strong left, opinion band \u2014 good on history, filter the framing."
+  "cls": "signal",
+  "note": "A historian’s daily context. The raters disagree: Ad Fontes puts it in the opinion band (27.5), Media Bias/Fact Check rates it High factual. Fused it lands just above 0 dB; read it for history and filter the framing.",
+  "mbfc": {
+   "fact": "High",
+   "fn": null,
+   "bias": "Left",
+   "bn": null,
+   "via": null,
+   "R": 43.8,
+   "B": -18.9
+  },
+  "snr_af": -1.23,
+  "R": 34.6,
+  "sR": 3.1,
+  "B": -16.2,
+  "sB": 2.6,
+  "snr_lo": -0.13,
+  "snr_hi": 1.56,
+  "p_sig": 0.8,
+  "p_prop": 0.05,
+  "disagree": true
  },
  {
   "name": "Pod Save America",
   "est": false,
   "group": "independent",
-  "snr": -1.12,
-  "drift": 53.2,
+  "snr": -0.5,
+  "drift": 51.0,
   "dir": "L",
   "bias": -22.33,
   "rel_af": 27.88,
   "relevance": 4,
   "scope": 3,
-  "fom": 40.2,
   "feed": null,
   "home": "https://crooked.com/podcast-series/pod-save-america/",
   "cls": "propaganda",
-  "note": "Former Obama staffers; candid on Democratic strategy but hyper-partisan left."
+  "note": "Former Obama staffers; candid on Democratic strategy but hyper-partisan left.",
+  "mbfc": {
+   "fact": "Mostly factual",
+   "fn": null,
+   "bias": "Left",
+   "bn": null,
+   "via": "Crooked Media (producer)",
+   "R": 36.1,
+   "B": -18.9
+  },
+  "snr_af": -1.12,
+  "R": 30.2,
+  "sR": 3.5,
+  "B": -21.4,
+  "sB": 2.9,
+  "snr_lo": -1.46,
+  "snr_hi": 0.44,
+  "p_sig": 0.3,
+  "p_prop": 0.62,
+  "disagree": false
  },
  {
   "name": "Joe Rogan Experience",
   "est": false,
   "group": "independent",
-  "snr": -3.84,
-  "drift": 22.2,
+  "snr": -2.59,
+  "drift": 21.7,
   "dir": "R",
   "bias": 9.34,
   "rel_af": 18.7,
   "relevance": 3,
   "scope": 7,
-  "fom": 39.5,
   "feed": null,
   "home": "https://www.joerogan.com",
   "cls": "noise",
-  "note": "Huge reach and very broad topics; reliability depends on the guest and often lands \u2018problematic\u2019."
+  "note": "Huge reach and very broad topics; reliability depends on the guest and often lands ‘problematic’.",
+  "mbfc": {
+   "fact": "Mixed",
+   "fn": 5.4,
+   "bias": "Right-Center",
+   "bn": 4.8,
+   "via": null,
+   "R": 26.7,
+   "B": 8.9
+  },
+  "snr_af": -3.84,
+  "R": 22.7,
+  "sR": 2.9,
+  "B": 9.1,
+  "sB": 2.4,
+  "snr_lo": -3.48,
+  "snr_hi": -1.76,
+  "p_sig": 0.0,
+  "p_prop": 0.0,
+  "disagree": false
  },
  {
   "name": "MeidasTouch News",
   "est": false,
   "group": "independent",
-  "snr": -2.64,
-  "drift": 45.4,
+  "snr": -1.81,
+  "drift": 47.2,
   "dir": "L",
   "bias": -19.05,
   "rel_af": 22.55,
   "relevance": 3,
   "scope": 3,
-  "fom": 33.9,
   "feed": null,
   "home": "https://www.meidasnews.com",
   "cls": "propaganda",
-  "note": "Very large YouTube audience with sensational headlines; hyper-partisan left, \u2018unreliable\u2019 band."
+  "note": "Very large YouTube audience with sensational headlines; hyper-partisan left, ‘unreliable’ band.",
+  "mbfc": {
+   "fact": "Mixed",
+   "fn": 5.0,
+   "bias": "Left",
+   "bn": -7.7,
+   "via": null,
+   "R": 28.3,
+   "B": -20.6
+  },
+  "snr_af": -2.64,
+  "R": 25.4,
+  "sR": 2.9,
+  "B": -19.8,
+  "sB": 2.4,
+  "snr_lo": -2.65,
+  "snr_hi": -1.0,
+  "p_sig": 0.01,
+  "p_prop": 0.77,
+  "disagree": false
  },
  {
   "name": "Promethean Updates",
   "est": true,
   "group": "independent",
-  "snr": -3.42,
-  "drift": 64.3,
+  "snr": -3.88,
+  "drift": 44.8,
   "dir": "R",
   "bias": 27.0,
   "rel_af": 20.0,
   "relevance": 3,
   "scope": 5,
-  "fom": 29.9,
   "feed": null,
   "home": "https://www.youtube.com/@PrometheanAction",
   "cls": "propaganda",
-  "note": "LaRouche-movement channel; *no Ad Fontes score \u2014 Media Bias/Fact Check rates it extreme right, low factual."
+  "note": "LaRouche-movement channel. No Ad Fontes score, so its position rests on Media Bias/Fact Check alone (Extreme Right, Low factual), mapped onto Ad Fontes’ scale; one rater means wider error bars.",
+  "mbfc": {
+   "fact": "Low",
+   "fn": null,
+   "bias": "Extreme Right",
+   "bn": null,
+   "via": null,
+   "R": 18.6,
+   "B": 18.8
+  },
+  "snr_af": null,
+  "R": 18.6,
+  "sR": 4.7,
+  "B": 18.8,
+  "sB": 4.0,
+  "snr_lo": -5.57,
+  "snr_hi": -2.44,
+  "p_sig": 0.0,
+  "p_prop": 0.58,
+  "disagree": false
  },
  {
   "name": "War Room (Bannon, RAV)",
   "est": false,
   "group": "independent",
-  "snr": -6.45,
-  "drift": 64.8,
+  "snr": -6.78,
+  "drift": 55.9,
   "dir": "R",
   "bias": 27.22,
   "rel_af": 11.81,
   "relevance": 3,
   "scope": 5,
-  "fom": 19.0,
   "feed": null,
   "home": "https://warroom.org",
   "cls": "propaganda",
-  "note": "Lowest reliability here (11.8, \u2018misleading\u2019 band); a 2023 Brookings study found it aired the most false claims of 79 podcasts."
+  "note": "Lowest reliability here (11.8, ‘misleading’ band); a 2023 Brookings study found it aired the most false claims of 79 podcasts.",
+  "mbfc": {
+   "fact": "Very Low",
+   "fn": 9.6,
+   "bias": "Extreme Right",
+   "bn": 9.4,
+   "via": null,
+   "R": 10.4,
+   "B": 19.8
+  },
+  "snr_af": -6.45,
+  "R": 11.1,
+  "sR": 2.9,
+  "B": 23.5,
+  "sB": 2.4,
+  "snr_lo": -8.32,
+  "snr_hi": -5.53,
+  "p_sig": 0.0,
+  "p_prop": 0.99,
+  "disagree": false
  },
  {
   "name": "Tim Pool Daily Show",
   "est": false,
   "group": "independent",
-  "snr": -5.91,
-  "drift": 55.5,
+  "snr": -4.07,
+  "drift": 47.1,
   "dir": "R",
   "bias": 23.33,
   "rel_af": 13.06,
   "relevance": 2,
   "scope": 4,
-  "fom": 18.3,
   "feed": null,
   "home": "https://timcast.com",
   "cls": "propaganda",
-  "note": "Last on overall score; reliability 13.1 (\u2018misleading\u2019 band) with hyper-partisan right drift."
+  "note": "Last on overall score; reliability 13.1 (‘misleading’ band) with hyper-partisan right drift.",
+  "mbfc": {
+   "fact": "Mixed",
+   "fn": 5.1,
+   "bias": "Right",
+   "bn": 6.4,
+   "via": "TimCast.com (same host)",
+   "R": 27.9,
+   "B": 12.7
+  },
+  "snr_af": -5.91,
+  "R": 18.0,
+  "sR": 3.3,
+  "B": 19.8,
+  "sB": 2.8,
+  "snr_lo": -5.27,
+  "snr_hi": -3.01,
+  "p_sig": 0.0,
+  "p_prop": 0.74,
+  "disagree": true
  },
-{
- "name": "The Economist",
- "est": false,
- "group": "mainstream",
- "snr": 2.62,
- "drift": 7.3,
- "dir": "L",
- "bias": -3.05,
- "rel_af": 41.37,
- "relevance": 8,
- "scope": 9,
- "fom": 80.0,
- "feed": "https://www.economist.com/latest/rss.xml",
- "home": "https://www.economist.com",
- "cls": "signal",
- "note": "Weekly global analysis rated ‘middle’ and reliable; strong on economics and foreign affairs; paywalled."
-},
-{
- "name": "Megyn Kelly Show",
- "est": false,
- "group": "independent",
- "snr": -0.32,
- "drift": 36.1,
- "dir": "R",
- "bias": 15.16,
- "rel_af": 30.83,
- "relevance": 5,
- "scope": 5,
- "fom": 51.5,
- "feed": null,
- "home": "https://www.youtube.com/@MegynKelly",
- "cls": "noise",
- "note": "Former Fox and NBC anchor’s podcast; strong right with mixed reliability — sharp interviews, opinion-heavy."
-},
-{
- "name": "The Young Turks",
- "est": false,
- "group": "independent",
- "snr": -2.25,
- "drift": 60.4,
- "dir": "L",
- "bias": -25.35,
- "rel_af": 23.9,
- "relevance": 3,
- "scope": 5,
- "fom": 35.6,
- "feed": null,
- "home": "https://www.youtube.com/@TheYoungTurks",
- "cls": "propaganda",
- "note": "Pioneering online progressive show; Ad Fontes rates it hyper-partisan left and ‘unreliable, problematic’."
-},
-{
- "name": "Real Time with Bill Maher",
- "est": false,
- "group": "comedy",
- "snr": 0.47,
- "drift": 21.1,
- "dir": "L",
- "bias": -8.88,
- "rel_af": 33.73,
- "relevance": 5,
- "scope": 6,
- "fom": 59.2,
- "feed": null,
- "home": "https://www.hbo.com/real-time-with-bill-maher",
- "cls": "signal",
- "note": "HBO comedy-panel show; rates in the ‘analysis’ band with a modest left skew, and books guests who push back. No headline feed."
-},
-{
- "name": "Last Week Tonight",
- "est": false,
- "group": "comedy",
- "snr": -1.43,
- "drift": 42.6,
- "dir": "L",
- "bias": -17.89,
- "rel_af": 26.78,
- "relevance": 5,
- "scope": 3,
- "fom": 42.5,
- "feed": null,
- "home": "https://www.hbo.com/last-week-tonight-with-john-oliver",
- "cls": "propaganda",
- "note": "HBO satire with researched deep dives built to persuade; just over the 40% drift line, so the propaganda call is marginal."
-}
+ {
+  "name": "The Economist",
+  "est": false,
+  "group": "mainstream",
+  "snr": 3.11,
+  "drift": 6.6,
+  "dir": "L",
+  "bias": -3.05,
+  "rel_af": 41.37,
+  "relevance": 8,
+  "scope": 9,
+  "feed": "https://www.economist.com/latest/rss.xml",
+  "home": "https://www.economist.com",
+  "cls": "signal",
+  "note": "Weekly global analysis rated ‘middle’ and reliable; strong on economics and foreign affairs; paywalled.",
+  "mbfc": {
+   "fact": "High",
+   "fn": 0.8,
+   "bias": "Least Biased",
+   "bn": null,
+   "via": null,
+   "R": 44.6,
+   "B": -2.4
+  },
+  "snr_af": 2.62,
+  "R": 43.0,
+  "sR": 2.9,
+  "B": -2.8,
+  "sB": 2.6,
+  "snr_lo": 2.25,
+  "snr_hi": 4.04,
+  "p_sig": 1.0,
+  "p_prop": 0.0,
+  "disagree": false
+ },
+ {
+  "name": "Megyn Kelly Show",
+  "est": false,
+  "group": "independent",
+  "snr": -0.85,
+  "drift": 26.7,
+  "dir": "R",
+  "bias": 15.16,
+  "rel_af": 30.83,
+  "relevance": 5,
+  "scope": 5,
+  "feed": null,
+  "home": "https://www.youtube.com/@MegynKelly",
+  "cls": "noise",
+  "note": "Former Fox and NBC anchor’s podcast; strong right with mixed reliability — sharp interviews, opinion-heavy.",
+  "mbfc": {
+   "fact": "Mixed",
+   "fn": null,
+   "bias": "Right-Center",
+   "bn": null,
+   "via": null,
+   "R": 26.3,
+   "B": 5.8
+  },
+  "snr_af": -0.32,
+  "R": 28.9,
+  "sR": 3.1,
+  "B": 11.2,
+  "sB": 2.6,
+  "snr_lo": -1.7,
+  "snr_hi": -0.01,
+  "p_sig": 0.16,
+  "p_prop": 0.0,
+  "disagree": false
+ },
+ {
+  "name": "The Young Turks",
+  "est": false,
+  "group": "independent",
+  "snr": -1.4,
+  "drift": 54.1,
+  "dir": "L",
+  "bias": -25.35,
+  "rel_af": 23.9,
+  "relevance": 3,
+  "scope": 5,
+  "feed": null,
+  "home": "https://www.youtube.com/@TheYoungTurks",
+  "cls": "propaganda",
+  "note": "Pioneering online progressive show; Ad Fontes rates it hyper-partisan left and ‘unreliable, problematic’.",
+  "mbfc": {
+   "fact": "Mixed",
+   "fn": 4.6,
+   "bias": "Left",
+   "bn": -7.5,
+   "via": null,
+   "R": 29.8,
+   "B": -20.1
+  },
+  "snr_af": -2.25,
+  "R": 26.9,
+  "sR": 2.9,
+  "B": -22.7,
+  "sB": 2.4,
+  "snr_lo": -2.22,
+  "snr_hi": -0.61,
+  "p_sig": 0.04,
+  "p_prop": 0.94,
+  "disagree": false
+ },
+ {
+  "name": "Real Time with Bill Maher",
+  "est": false,
+  "group": "comedy",
+  "snr": 0.47,
+  "drift": 21.1,
+  "dir": "L",
+  "bias": -8.88,
+  "rel_af": 33.73,
+  "relevance": 5,
+  "scope": 6,
+  "feed": null,
+  "home": "https://www.hbo.com/real-time-with-bill-maher",
+  "cls": "signal",
+  "note": "HBO comedy-panel show; rates in the ‘analysis’ band with a modest left skew, and books guests who push back. Not rated by Media Bias/Fact Check, so it rests on one rater. No headline feed.",
+  "mbfc": null,
+  "snr_af": 0.47,
+  "R": 33.7,
+  "sR": 4.1,
+  "B": -8.9,
+  "sB": 3.4,
+  "snr_lo": -0.64,
+  "snr_hi": 1.6,
+  "p_sig": 0.66,
+  "p_prop": 0.0,
+  "disagree": false
+ },
+ {
+  "name": "Last Week Tonight",
+  "est": false,
+  "group": "comedy",
+  "snr": -1.43,
+  "drift": 42.6,
+  "dir": "L",
+  "bias": -17.89,
+  "rel_af": 26.78,
+  "relevance": 5,
+  "scope": 3,
+  "feed": null,
+  "home": "https://www.hbo.com/last-week-tonight-with-john-oliver",
+  "cls": "noise",
+  "note": "HBO satire with researched deep dives built to persuade. Its bias (−17.9) is 0.1 inside Ad Fontes’ Hyper-Partisan line at ±18, so it is listed as noise, but the call is close to a coin flip. Not rated by Media Bias/Fact Check.",
+  "mbfc": null,
+  "snr_af": -1.43,
+  "R": 26.8,
+  "sR": 4.1,
+  "B": -17.9,
+  "sB": 3.4,
+  "snr_lo": -2.6,
+  "snr_hi": -0.31,
+  "p_sig": 0.1,
+  "p_prop": 0.44,
+  "disagree": false
+ }
 ]</script>
+<script id="cal" type="application/json">{"n": 20, "a": -3.89, "b": 47.74, "r": -0.83, "sr": 5.8, "nb": 19, "c1": 2.36, "c0": -2.41, "rb": 0.92, "sb": 4.8}</script>
 <script id="snapshot" type="application/json">{"at":1795093549401,"i":{"Reuters":[["Riyadh’s tallest skyscraper hit in Houthi strike on Saudi wealth fund HQ","https://www.reuters.com/world/middle-east/houthi-missile-threat-towards-riyadh-causes-damage-saudi-led-coalition-says-2026-11-19/",531],["COP31 negotiators publish revised deal text with no mention of fossil fuels","https://www.reuters.com/sustainability/cop/cop31-negotiators-publish-revised-deal-text-with-no-mention-fossil-fuels-2026-11-19/",533],["Trump says US will 'see what happens' in conflict with Iran after January 1","https://www.reuters.com/world/trump-says-us-will-see-what-happens-conflict-with-iran-after-january-1-2026-11-19/",535],["Ukraine strikes Crimean Bridge for third time in a week ahead of US-China-Russia summit","https://www.reuters.com/world/china/third-attack-week-suspends-traffic-over-crimean-bridge-russian-official-says-2026-11-19/",544],["Palo Alto's raised sales forecast powers cybersecurity stock rally","https://www.reuters.com/legal/litigation/palo-altos-raised-sales-forecast-powers-cybersecurity-stock-rally-2026-11-19/",545]],"AP":[["Sen. Tim Kaine says he will force votes on human rights consequences of US policies in Russia","https://apnews.com/article/senate-russia-kaine-votes-diesel-437d5cfb240275e0d75f27314277620e",546],["Bus crashes into a fuel truck in southwestern Pakistan and at least 10 people are killed","https://apnews.com/article/pakistan-bus-crash-truck-balochistan-0ab21f3f85a4c2b2706cd63ddf99cbba",557],["Palestinians victims of a third of violations against children worldwide, Save the Children says","https://apnews.com/article/mideast-wars-gaza-palestinians-children-89dcebbb9ad85f63488b5a8641cd9f66",546],["Danish lawmakers approve a security deal with Greenland and the US, hoping to finally end tensions","https://apnews.com/article/denmark-greenland-us-security-arctic-north-atlantic-a392abbba5c2f1bccbbb372e3d38769d",571],["Trump meets Xi and Putin, Ukraine strikes bridge linking Crimea, ‘Grand Theft Auto VI’ arrives","https://apnews.com/newsletter/morning-wire/november-19-2026",564]],"BBC":[["Watch: Trump greets 'my friend' Putin as pair shake hands","https://www.bbc.co.uk/news/videos/c6j9m19llmv3o",275],["Anthropic raises $81bn in record-breaking stock market debut","https://www.bbc.co.uk/news/articles/c6742m39xgzxo",138],["UK to provide Ukraine with 1,000 long-range strike drones","https://www.bbc.co.uk/news/articles/c5n4em9mkkzeo",186],["Google rejects UK request for Russell Brand YouTube video to be removed, sources say","https://www.bbc.co.uk/news/articles/cmgrenln8p29o",82],["Leasehold system set to be scrapped in England and Wales","https://www.bbc.co.uk/news/articles/cw987ynpd0n1o",219]],"CBS News (web)":[["Trump says Iran may be working on biological weapons","https://www.cbsnews.com/live-updates/iran-war-us-gulf-retaliation-strikes-strait-of-hormuz/",7],["Anthropic's IPO set for blastoff in key test for AI boom","https://www.cbsnews.com/news/anthropic-ipo-ai-boom-nasdaq-debut/",18],["Myanmar committed genocide against Rohingya, U.N. top court rules","https://www.cbsnews.com/news/myanmar-genocide-rohingyas-un-top-court/",31],["South Florida severe weather and flooding live updates","https://www.cbsnews.com/live-updates/south-florida-flooding-live-updates-heavy-rain-broward-miami-dade/",45],["Obama gives pep talk to freshman House Democrats in surprise visit","https://www.cbsnews.com/news/obama-pep-talk-freshman-house-democrats/",76]],"WSJ":[["Trump, Xi and Putin Convene First-Ever Summit as World Order Shifts","https://www.wsj.com/world/trump-xi-and-putin-convene-first-ever-summit-as-world-order-shifts-82e58aab",271],["Insurgents in Iran’s Borderlands Are Becoming a Bigger Challenge for the Regime","https://www.wsj.com/world/middle-east/insurgents-in-irans-borderlands-are-becoming-a-bigger-challenge-for-the-regime-f816b46f",726],["European Defense Chief Snaps at Pentagon Official Over Ukraine Criticism","https://www.wsj.com/world/europe/european-defense-chief-snaps-at-pentagon-official-over-ukraine-criticism-0f47f082",815],["Hegseth Cements New Military Deal in Visit to Venezuela","https://www.wsj.com/world/americas/hegseth-cements-new-military-deal-in-visit-to-venezuela-621ccdcb",828],["U.S. Enters Unprecedented Three-Way Nuclear Rivalry With China and Russia","https://www.wsj.com/world/u-s-enters-unprecedented-three-way-nuclear-rivalry-with-china-and-russia-2f2385c3",1269]],"NPR (web)":[["Top U.N. court rules Myanmar committed genocide against the Rohingya","https://www.npr.org/2026/11/19/g-s1-154340/un-court-myanmar-genocide-rohingya",36],["AI giant Anthropic raises more than $100 billion in record-setting IPO","https://www.npr.org/2026/11/19/nx-s1-6042558/anthropic-ipo-breaks-records-100-billion",186],["Trump, Xi and Putin meet as global alliances hang in the balance","https://www.npr.org/2026/11/18/nx-s1-6040432/trump-xi-and-putin-shenzhen-china-russia-usa",201],["Yahoo for the loo! An ode to the commode! Dotty for the potty! It's World Toilet Day!","https://www.npr.org/2026/11/19/g-s1-154159/world-toilet-day-gender-equality-menstruation",39],["Morning news brief","https://www.npr.org/2026/11/19/nx-s1-6042289/morning-news-brief",199]],"NY Times":[["Villa Where Trump, Xi and Putin Will Meet Once Hosted Kim Jong-il","https://www.nytimes.com/2026/11/19/world/asia/trump-xi-putin-kylin-villa.html",372],["How Nvidia Chips Ended Up Within Reach of China’s Military","https://www.nytimes.com/2026/11/18/technology/nvidia-alibaba-china-military.html",533],["A Village Burned, Its People Killed or Exiled. Was It Genocide?","https://www.nytimes.com/2026/11/19/world/asia/myanmar-rohingya-village-refugee-genocide.html",384],["Takeaways From the 2026 DealBook Summit","https://www.nytimes.com/2026/11/18/business/dealbook/dealbook-summit-musk-altman-ellison.html",593],["Anthropic Sells $81.3 Billion in Shares for a Record IPO","https://www.nytimes.com/2026/11/18/technology/anthropic-ipo-pricing.html",744]],"CNN (web)":[["‘I’m not MAGA’: Elon Musk downplays GOP midterm spending spree at NY Times event","https://www.cnn.com/2026/11/19/politics/video/elon-musk-not-maga-post-midterms-distance",534],["Trump’s former EU ambassador says Trump sent a ‘terrible message to Zelensky’ in trilateral China summit","https://www.cnn.com/2026/11/19/politics/video/trump-putin-xi-china-trilateral-summit-reaction",534],["Strongmen ‘friends,’ AI’s potential and other takeaways from Trump’s China trip and sit-down with Putin and Xi","https://us.cnn.com/2026/11/19/politics/trump-putin-xi-meeting-takeaways",555],["UN top court finds Myanmar guilty of committing genocide against Rohingya minority","https://www.cnn.com/2026/11/19/asia/icj-myanmar-genocide-rohingya-ruling-intl-hnk",567],["Anthropic set to go public in trillion-dollar bet on the future of AI","https://www.cnn.com/2026/11/19/business/live-news/anthropic-ipo",603]],"PBS NewsHour":[["Anthropic prices its IPO at $83 per share, valuing the AI giant at $1.5 trillion","https://www.pbs.org/newshour/economy/anthropic-prices-its-ipo-at-83-per-share-valuing-the-ai-giant-at-1-5-trillion",731],["Rainfall supercharged by El Niño causes road flooding, synagogue roof collapse in South Florida","https://www.pbs.org/newshour/nation/rainfall-supercharged-by-el-nino-causes-road-flooding-synagogue-roof-collapse-in-south-florida",739],["Iran widens Gulf attacks by targeting U.S. air base in Kuwait and sites in Bahrain","https://www.pbs.org/newshour/world/iran-widens-gulf-attacks-by-targeting-u-s-air-base-in-kuwait-and-sites-in-bahrain",750],["News Wrap: Democrats nominate Hakeem Jeffries for Speaker of the House","https://www.pbs.org/newshour/show/news-wrap-democrats-nominate-hakeem-jeffries-for-speaker-of-the-house",800],["Lawmakers press Mullin on flight disruptions and ICE tactics","https://www.pbs.org/newshour/show/lawmakers-press-mullin-on-flight-disruptions-and-ice-tactics",805]],"Washington Post":[["Justice Dept.’s cascade of voter fraud cases slows to a trickle post-midterms","https://www.washingtonpost.com/immigration/2026/11/19/justice-depts-cascade-voter-fraud-cases-slows-trickle-post-midterms/",186],["Senate Republicans resist Trump’s bid to bypass Democrats on defense funding","https://www.washingtonpost.com/business/2026/11/19/republicans-break-with-trump-his-request-party-line-pentagon-funding-bill/",186],["Russian national charged with spying on Silicon Valley defense contractor","https://www.washingtonpost.com/nation/2026/11/18/russian-national-charged-with-spying-silicon-valley-defense-contractor/",760],["Worried about an AI bust? So is the Federal Reserve.","https://www.washingtonpost.com/business/2026/11/18/fed-officials-worry-an-ai-bust-could-shake-financial-system/",875],["Unlocked cells. Family dinners. A once-violent prison is trying something new.","https://www.washingtonpost.com/nation/2026/11/19/unlocked-cells-family-dinners-once-violent-prison-is-trying-something-new/",126]],"Meet the Press":[["Ruben Gallego says Schumer must contend with ‘fresh and new ideas’: Full interview","https://www.nbcnews.com/meet-the-press/video/gallego-schumer-must-contend-with-fresh-and-new-ideas-as-he-runs-for-senate-leader-273763909891",905],["DHS secretary ‘98% confident’ tech outages not caused by US adversaries","https://www.nbcnews.com/meet-the-press/video/dhs-secretary-98-confident-tech-outages-not-caused-by-us-adversaries-273762885691",936],["GOP Rep. says ‘Americans want to stop’ immigration ‘overreach’ after midterm backlash","https://www.nbcnews.com/meet-the-press/video/gop-rep-says-americans-want-to-stop-immigration-overreach-after-midterm-backlash-273763909879",906],["Stratton undecided on Senate leadership battle: ‘I’m hearing everybody out’","https://www.nbcnews.com/meet-the-press/video/stratton-undecided-on-senate-leadership-battle-i-m-hearing-everybody-out-273674821720",2368],["Nationwide outages may ‘accelerate’ but not because of cyberattacks, says cybersecurity expert","https://www.nbcnews.com/meet-the-press/video/nationwide-outages-may-accelerate-but-not-because-of-cyberattacks-says-cybersecurity-expert-273673797664",2368]],"60 Minutes":[["Parents whose sons died from kratom use warn about the substance","https://www.cbsnews.com/news/parents-whose-sons-died-from-kratom-use-warn-about-substance-60-minutes/",5105],["60 Minutes Transcript: Families of U.S. soldiers killed in Iran war","https://www.cbsnews.com/news/cost-of-war-iran-60-minutes-transcript/",5106],["4 takeaways from actor John Malkovich's 60 Minutes interview","https://www.cbsnews.com/news/john-malkovich-acting-movies-versus-plays-60-minutes/",5106],["Kratom, an opioid, can lead to addiction and death. Yet, in most states, it's legal.","https://www.cbsnews.com/video/kratom-60-minutes-video-2026-11-15/",5106]],"Fox News (web)":[["Republicans hold lone Alaska House seat despite losing Senate, governor races","https://www.foxnews.com/politics/republicans-hold-lone-alaska-house-seat-despite-losing-senate-governor-races",22],["China blocks Bloomberg reporter from Trump-Putin-Xi meeting over question to Trump","https://www.foxnews.com/politics/china-blocks-bloomberg-reporter-trump-putin-xi-meeting-question-trump",56],["MICHAEL RUIZ: What is a dirty bomb? Explosive terror threat explained","https://www.foxnews.com/us/michael-ruiz-what-is-dirty-bomb-explosive-terror-threat-explained",65],["Woman who says abortion pills nearly killed her urges RFK Jr to act as group demands mail-order crackdown","https://www.foxnews.com/media/woman-says-abortion-pills-nearly-killed-urges-rfk-jr-act-group-demands-mail-order-crackdown",66],["Trump’s historic summit with Xi, Putin marks unprecedented moment in global diplomacy and more top headlines","https://www.foxnews.com/us/trumps-historic-summit-xi-putin-global-diplomacy-more-top-headlines",56]],"MS NOW (web)":[["Why Hakeem Jeffries’ Medicare proposal is a big deal","https://www.ms.now/opinion/hakeem-jeffries-medicare-age-benefits-sanders",126],["Schumer’s 2028 plans loom over the Senate’s 2026 leadership fight","https://www.ms.now/news/schumer-2028-plans-loom-senate-2026-leadership-fight",186],["Trump hails historic meeting with Putin and Xi, but path forward on Iran and Ukraine unclear","https://www.ms.now/news/trump-putin-xi-trilateral-summit-russia-china-apec-ukraine-iran",194],["Navy families evacuated from Bahrain describe facing more financial hardship","https://www.ms.now/news/us-military-evacuees-bahrain-navy-base-iran-war",725],["Russian man indicted on charges of spying, stalking Silicon Valley defense firm employees","https://www.ms.now/news/russian-man-indicted-on-charges-of-spying-stalking-silicon-valley-defense-firm-employees",758]],"Tangle":[["Hawley calls for Congress to be briefed on outages affecting consumers.","https://www.readtangle.com/hawley-calls-for-congress-to-be-briefed-on-outages-affecting-consumers/",884],["The Senate considers permitting reform.","https://www.readtangle.com/senate-permitting-reform-baaja/",1214],["Jensen Huang’s resignation and Nvidia’s future.","https://www.readtangle.com/nvidia-ceo-jensen-huang-resigns-affair-alleged-spy/",2653],["The nationwide ground stop.","https://www.readtangle.com/faa-nationwide-ground-stop/",4095],["I Went to Utah to See if the Great Salt Lake Is Dying","https://www.readtangle.com/i-went-to-utah-to-see-if-the-great-salt-lake-is-dying/",4140]],"The Dispatch":[["Should Lame Ducks Hibernate?","https://thedispatch.com/podcast/advisoryopinions/should-lame-ducks-hibernate/",306],["In Going Public, Anthropic Seeks to Dominate the AI Race","https://thedispatch.com/article/anthropic-ipo-ai-race-amodei/",424],["Impeachment Is Fine, but Have We Tried Laws?","https://thedispatch.com/article/democratic-majority-impeachment-laws-congress/",425],["The West Bank’s Dangerous Crossroads","https://thedispatch.com/article/israeli-arabs-palestinians-west-bank-occupation/",426],["Why I Squabbled With The Bulwark","https://thedispatch.com/newsletter/gfile/jonah-goldberg-bulwark-disagreement/",815]],"Glenn Greenwald":[["Weekly Q&A with Glenn Greenwald","https://greenwald.substack.com/p/weekly-q-and-a-with-glenn-greenwald-d58",8598]],"The Bulwark":[["Don’t Just Assume Dems Will Lose Their 2026 Gains Next Time","https://www.thebulwark.com/p/dont-just-assume-democrats-dems-will-lose-their-2026-gains-next-time",776],["Trump Won This District by 17 Points. Then Cyril Jefferson Pulled Off the Impossible.","https://www.thebulwark.com/p/trump-won-this-district-by-17-points",781],["Fox News Host Unloads on JD Vance in Stunning On-Air Attack","https://www.thebulwark.com/p/fox-news-host-unloads-on-jd-vance",755],["BREAKING: Markwayne Mullin Grilled Over FAA Chaos, ICE Deaths and Football Game Flight","https://www.thebulwark.com/p/breaking-markwayne-mullin-grilled",1015],["How Worried Should We Be About a Dirty Bomb? | Command Post","https://www.thebulwark.com/p/how-worried-should-we-be-about-a",1150]]}}</script>
 <script>
 "use strict";
@@ -674,9 +1263,9 @@ const MODES = [
  {id:"culture", name:"Hot-button culture stories", seeker:"CFAR: raise the threshold", primary:["Tangle"], cross:["NY Times","WSJ"], fail:"Ignore it if only low-SNR sources carry it.",
   kw:/\b(abortion|immigra\w+|migrants?|border|deport\w*|ice|transgender|trans|gender|guns?|dei|race|racis\w+|religio\w+|christian\w*|church|woke|school|universit\w+|protest\w*|police)\b/i},
  {id:"liberty", name:"Civil liberties, surveillance", seeker:"Narrow field of view", primary:["Glenn Greenwald"], cross:["AP","NY Times"], fail:"Check court filings and official records.",
-  kw:/\b(surveillance|privacy|free speech|censor\w*|first amendment|fbi|nsa|cia|warrant|spy\w*|court|judge|supreme court|lawsuit|sued|ruling|indict\w*|prosecut\w+|doj|justice department|rights|press freedom)\b/i},
+  kw:/\b(surveillance|privacy|free speech|censor\w*|first amendment|fourth amendment|civil liberties|civil rights|due process|habeas|fbi|nsa|cia|warrantless|wiretap\w*|spy\w*|facial recognition|data broker\w*|press freedom|whistleblower\w*|journalists? (arrested|detained|subpoenaed))\b/i},
  {id:"viral", name:"Viral clips, campaign claims", seeker:"Home-on-jam: trace the source", primary:["AP","Reuters"], cross:["Tangle"], fail:"Hold until the full clip and context appear.",
-  kw:/\b(viral|video|clip|claims?|campaign|election|elect\w*|polls?|voters?|candidates?|primary|rally|says|slams|attack(s|ed)? on|feud|backlash|fact.?check|misinformation|rumou?r)\b/i},
+  kw:/\b(viral|clip|false claims?|campaign|election|elect\w*|polls?|voters?|candidates?|primary|rally|slams|feud|backlash|fact.?check\w*|misinformation|disinformation|deepfake\w*|rumou?r)\b/i},
 ];
 const RELAYS = [
   u => ({url:"https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent(u), kind:"json"}),
@@ -685,8 +1274,88 @@ const RELAYS = [
 const gnews = q => "https://news.google.com/rss/search?q="+encodeURIComponent(q+" when:3d")+"&hl=en-US&gl=US&ceid=US:en";
 const $ = s => document.querySelector(s);
 const esc = s => String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const decode = s => { const t=document.createElement("textarea"); t.innerHTML=s||""; return t.value; };
+const decode = s => new DOMParser().parseFromString("<!doctype html><body>"+String(s||""),"text/html").body.textContent;
+const safeUrl = u => /^https?:\/\//i.test(String(u||"").trim()) ? String(u).trim() : "#";
 const sleep = ms => new Promise(r=>setTimeout(r,ms));
+const CAL = JSON.parse(document.getElementById("cal").textContent);
+const BYNAME = Object.fromEntries(SOURCES.map(s=>[s.name,s]));
+const odds = db => Math.pow(10, db/10);
+const sgn = x => (x>=0?"+":"")+x.toFixed(1);
+
+// ---- Story fusion: which headlines are the same story, and how many independent outlets carry it ----
+const STOP = new Set(("the a an and or but of to in on at for with from by as is are was were be been has have had will would could should can may might says say said after over into about amid than then that this these those its it his her their our your not no new why how what who when where more most just us u.s off out up down back "+
+  "killed kill dead death people attack attacks air host live update updates week weeks year years first set record giant plan plans deal big takeaway takeaways news report reports watch video full interview breaking stunning one two three top day days time make makes made get gets take takes call calls ahead still").split(" "));
+function toks(t){ return [...new Set(String(t).toLowerCase().replace(/[’']s\b/g,"").replace(/[^a-z0-9$]+/g," ").split(" ").filter(w=>w.length>=3&&!STOP.has(w)).map(w=>w.length>4&&/[^s]s$/.test(w)?w.slice(0,-1):w))]; }
+function fuse(items){            // items: [{s, i}]
+  const N = items.length; if (!N) return [];
+  const SIM = 0.12, DUP = 0.7, RARE = Math.max(4, Math.round(N/15));
+  const T = items.map(x=>toks(x.i.t)), df = new Map();
+  T.forEach(ts=>ts.forEach(w=>df.set(w,(df.get(w)||0)+1)));
+  const idf = w => Math.log((N+1)/(df.get(w)+0.5));
+  const V = T.map(ts=>{ const v=new Map(); let n=0; ts.forEach(w=>{ const x=idf(w); v.set(w,x); n+=x*x; }); return {v, n:Math.sqrt(n)||1}; });
+  const M = items.map(()=>new Float32Array(N)), dup = [];
+  for (let p=0;p<N;p++) for (let q=p+1;q<N;q++){
+    if (items[p].s.name===items[q].s.name) continue;
+    let d=0, sh=0, rare=false;
+    for (const [w,x] of V[p].v) if (V[q].v.has(w)){ d+=x*V[q].v.get(w); sh++; if (df.get(w)<=RARE && w.length>=4) rare=true; }
+    const c = d/(V[p].n*V[q].n);
+    M[p][q] = M[q][p] = (sh>=2 && rare) ? c : 0;
+    if (sh>=3 && c>=DUP) dup.push([p,q]);
+  }
+  let G = items.map((_,k)=>[k]);                       // average-linkage agglomeration
+  const link = (A,B)=>{ let t=0,n=0; for (const p of A) for (const q of B){ if (items[p].s.name===items[q].s.name) continue; t+=M[p][q]; n++; } return n ? t/n : 0; };
+  for(;;){ let best=SIM, bi=-1, bj=-1;
+    for (let i=0;i<G.length;i++) if (G[i].length) for (let j=i+1;j<G.length;j++){ const l=link(G[i],G[j]); if (l>=best){ best=l; bi=i; bj=j; } }
+    if (bi<0) break; G[bi]=G[bi].concat(G[bj]); G.splice(bj,1); }
+  const same = items.map((_,k)=>k), f = k => same[k]===k ? k : (same[k]=f(same[k]));
+  dup.forEach(([p,q])=>{ same[f(p)]=f(q); });
+  return G.map(ks=>{
+    const bySrc = new Map(); for (const k of ks){ const n=items[k].s.name; if (!bySrc.has(n) || snrL(items[k].s)>snrL(items[bySrc.get(n)].s)) bySrc.set(n,k); }
+    const obs = new Map(); for (const k of bySrc.values()){ const r=f(k); if (!obs.has(r) || snrL(items[k].s)>snrL(items[obs.get(r)].s)) obs.set(r,k); }
+    const ind = [...obs.values()].map(k=>items[k]).sort((x,y)=>snrL(y.s)-snrL(x.s));
+    const ev = ind.reduce((t,x)=>t+snrL(x.s),0);            // weight of evidence: sum of independent log-odds, in dB
+    const w = ind.map(x=>odds(snrL(x.s))), W = w.reduce((t,v)=>t+v,0);
+    const lean = ind.reduce((t,x,j)=>t+w[j]*x.s.B,0)/W;
+    const L = ind.filter(x=>x.s.B<=-6).length, R = ind.filter(x=>x.s.B>=6).length;
+    return { all: ks.map(k=>items[k]), ind, n: ind.length, copies: bySrc.size-ind.length, ev, lean,
+             oneSided: ind.length>=2 && (ind.length-L-R)===0 && (L===0 || R===0), side: L ? "left" : "right" };
+  }).sort((x,y)=>y.ev-x.ev);
+}
+let STORIES = [], STORY_OF = new Map();
+function runFusion(){
+  const now = DATA.live ? Date.now() : (DATA.at || Date.now()), items = [];
+  for (const s of SOURCES) if (s.cls==="signal" && s.feed) for (const i of (DATA.items[s.name]||[])) if (!i.d || now-i.d < 36*36e5) items.push({s,i});
+  STORIES = fuse(items); STORY_OF = new Map();
+  for (const st of STORIES) for (const x of st.all) STORY_OF.set(x.i.l, st);
+}
+
+// ---- Learned record: does each source's reporting get picked up by other independent outlets? ----
+// Prior: a Beta distribution whose mean comes from the source's fused rating, worth N0 observations.
+const N0 = 20;
+let REC = { seen:{}, tally:{} };
+try { const r = JSON.parse(localStorage.getItem("wbsf-rec")||"null"); if (r && r.seen && r.tally) REC = r; } catch(e) {}
+function poolRate(){ let c=0,n=0; for (const [k,v] of Object.entries(REC.tally)){ c+=v[0]; n+=v[0]+v[1]; } return n>=50 ? c/n : 0.35; }
+const pOf = s => s.R/64;
+const P_BAR = (()=>{ const L=SOURCES.filter(s=>s.cls==="signal"&&s.feed); return L.reduce((t,s)=>t+pOf(s),0)/L.length; })();
+function learned(s){
+  const t = REC.tally[s.name] || [0,0], m0 = Math.min(.97, Math.max(.03, poolRate()*pOf(s)/P_BAR));
+  const m = (m0*N0 + t[0])/(N0 + t[0] + t[1]), k = m/m0;
+  const dB = Math.max(-2, Math.min(2, 10*Math.log10(k)));   // capped: corroboration is not the same thing as accuracy
+  return { c:t[0], n:t[0]+t[1], m0, m, dB };
+}
+const snrL = s => s.snr + (s.cls==="signal" && s.feed ? learned(s).dB : 0);
+function learn(){
+  if (!DATA.live) return;                       // learn only from live pulls, never from the saved snapshot
+  const now = Date.now();
+  for (const st of STORIES) for (const x of st.all){
+    const k = x.i.l, e = REC.seen[k] || (REC.seen[k] = { s:x.s.name, t:x.i.d||now, v:null });
+    if (e.v!==null) continue;
+    if (st.n>=2){ e.v=1; (REC.tally[e.s] ||= [0,0])[0]++; }
+    else if (now-e.t > 24*36e5){ e.v=0; (REC.tally[e.s] ||= [0,0])[1]++; }
+  }
+  for (const [k,e] of Object.entries(REC.seen)) if (now-e.t > 14*864e5) delete REC.seen[k];
+  try { localStorage.setItem("wbsf-rec", JSON.stringify(REC)); } catch(e) {}
+}
 function fromSnap(S){ const items={}; if (S.i) for (const [k,v] of Object.entries(S.i)) items[k]=v.map(x=>({t:x[0], l:x[1], d:S.at-x[2]*6e4})); return items; }
 const SANDBOXED = (window.origin==="null" || location.protocol==="blob:" || location.protocol==="about:");
 let DATA = { at: SNAP.at || null, items: SNAP.i ? fromSnap(SNAP) : (SNAP.items || {}), live:false };
@@ -702,7 +1371,8 @@ function clean(title, name){
   return t;
 }
 function direct(l){ try { const u=new URL(String(l).replace(/&amp;/g,"&")); if (/bing\.com$/.test(u.hostname) && u.searchParams.get("url")) return u.searchParams.get("url"); } catch(e) {} return l; }
-function parseDate(s){ if(!s) return 0; const t=Date.parse(String(s).replace(" ","T")+(/Z|[+-]\d\d:?\d\d$|GMT|UTC/.test(s)?"":"Z")); return isNaN(t)?(Date.parse(s)||0):t; }
+function parseDate(s){ if(!s) return 0; s=String(s).trim(); let t=Date.parse(s); if(!isNaN(t)) return t;   // RFC 2822 and ISO with zone
+  t=Date.parse(s.replace(/^(\d{4}-\d\d-\d\d) (\d)/,"$1T$2")+(/Z|[+-]\d\d:?\d\d$/.test(s)?"":"Z")); return isNaN(t)?0:t; }
 const bnews = q => "https://www.bing.com/news/search?q="+encodeURIComponent(q)+"&qft=sortbydate%3d%221%22&format=rss";
 async function fetchFeed(src){
   const urls = src.feed.startsWith("N:") ? [bnews(src.feed.slice(2)), gnews(src.feed.slice(2))] : [src.feed];
@@ -717,7 +1387,7 @@ async function fetchFeed(src){
       else { const x = new DOMParser().parseFromString(await res.text(),"text/xml"); items=[...x.querySelectorAll("item,entry")].map(n=>({t:(n.querySelector("title")||{}).textContent, l:(n.querySelector("link")||{}).textContent||((n.querySelector("link")||{getAttribute(){}}).getAttribute("href")), d:parseDate((n.querySelector("pubDate,updated,published")||{}).textContent)})); }
       const maxAge = (src.name==="60 Minutes"||src.name==="Meet the Press") ? 21 : 7;
       items = items.filter(i=>i.t && i.l && !/^(about us|contact|subscribe)$/i.test(i.t.trim()) && (!i.d || Date.now()-i.d < maxAge*864e5))
-                   .map(i=>({t:clean(i.t,src.name), l:direct(i.l), d:i.d})).slice(0,15);
+                   .map(i=>({t:clean(i.t,src.name), l:safeUrl(direct(i.l)), d:i.d})).filter(i=>i.l!=="#").slice(0,15);
       if (items.length) return items;
     } catch(e) {}
   }
@@ -737,35 +1407,46 @@ async function refresh(){
   for (const s of google){ jobs.push(run(s)); await sleep(1200); }   // space out news-search queries (rate-limited)
   await Promise.all(jobs);
   if (ok){
-    const items = Object.assign({}, DATA.items, got);
-    DATA = { at: Date.now(), items, live:true, ok, total: live.length };
+    const items = Object.assign({}, DATA.items, got), now = Date.now();
+    const fresh = Object.assign({}, DATA.fresh||{}); for (const k of Object.keys(got)) fresh[k]=now;
+    DATA = { at: now, items, fresh, live:true, ok, total: live.length };
     try { localStorage.setItem("wbsf-cache", JSON.stringify(DATA)); } catch(e) {}
+    runFusion(); learn();
   } else { DATA.failed = true; }
   btn.disabled=false; btn.textContent="↻ Refresh";
   render();
 }
 function pill(cls, txt){ return `<span class="pill ${cls}">${esc(txt)}</span>`; }
-function srcPills(s){ return pill("snr",(s.snr>=0?"+":"")+s.snr.toFixed(1)+" dB") + pill(s.dir, Math.round(s.drift)+"% "+({L:"left",R:"right",C:"center"})[s.dir]) + pill("", "score "+Math.round(s.fom)); }
+function srcPills(s){ return pill("snr", sgn(s.snr)+" dB") + pill(s.dir, Math.round(s.drift)+"% "+({L:"left",R:"right",C:"center"})[s.dir]); }
+function confPill(i){ const st = STORY_OF.get(i.l); if (!st || st.n<2) return ""; return pill("ok", "✓ "+st.n+" outlets") + (st.oneSided ? pill("one","one-sided") : ""); }
 function stamp(){
   const n = Object.keys(DATA.items||{}).length;
   let msg;
   if (!DATA.at) msg = "No headlines yet — tap Refresh.";
-  else if (DATA.live) msg = `Live headlines, received ${new Date(DATA.at).toLocaleString([], {dateStyle:"medium", timeStyle:"short"})}`;
+  else if (DATA.live) msg = `Live headlines from ${DATA.ok} of ${DATA.total} sources, received ${new Date(DATA.at).toLocaleString([], {dateStyle:"medium", timeStyle:"short"})}` + (DATA.ok<DATA.total ? " (the rest show their last saved headlines)" : "");
   else msg = `Saved headlines from ${new Date(DATA.at).toLocaleString([], {dateStyle:"medium", timeStyle:"short"})}`;
   $("#stamp").textContent = msg + (DATA.failed && !SANDBOXED ? " · live update failed, showing the last good set" : "");
-  $("#count").textContent = `${n}/${SOURCES.filter(s=>s.cls==="signal"&&s.feed).length} high-SNR sources reporting · ${SOURCES.filter(s=>s.cls!=="signal").length} filtered out`;
+  const feeds = SOURCES.filter(s=>s.cls==="signal"&&s.feed);
+  $("#count").textContent = `${feeds.filter(s=>(DATA.items||{})[s.name]).length}/${feeds.length} signal sources with headlines · ${SOURCES.filter(s=>s.cls!=="signal").length} filtered out`;
 }
 function rowHTML(s, its, m){
   const role = m && m.primary.includes(s.name) ? pill("pri","primary") : m && m.cross.includes(s.name) ? pill("x","cross-check") : "";
-  return `<div class="src"><div class="sline"><span class="sname">${esc(s.name)}</span>${role}${srcPills(s)}</div><ul class="h">` +
-    its.map(i=>`<li><a href="${esc(i.l)}" target="_blank" rel="noopener">${esc(i.t)}</a> <span class="age">${ago(i.d)}</span></li>`).join("") + `</ul></div>`;
+  const stale = DATA.live && !(DATA.fresh||{})[s.name] ? pill("", "saved earlier") : "";
+  return `<div class="src"><div class="sline"><span class="sname">${esc(s.name)}</span>${role}${srcPills(s)}${stale}</div><ul class="h">` +
+    its.map(i=>`<li><a href="${esc(safeUrl(i.l))}" target="_blank" rel="noopener">${esc(i.t)}</a> ${confPill(i)} <span class="age">${ago(i.d)}</span></li>`).join("") + `</ul></div>`;
 }
-function section(title, meta, matches){            // matches: [{s, i}] already in SNR order
-  const top = [], rest = [], seenSrc = new Set();
-  for (const x of matches){
-    if (top.length < MAXN && x.s.snr >= THRESH && !seenSrc.has(x.s.name) && (!x.i.d || Date.now()-x.i.d < 36*36e5)){ top.push(x); seenSrc.add(x.s.name); }
-    else rest.push(x);
-  }
+const rank = (s, m) => m && m.primary.includes(s.name) ? 0 : m && m.cross.includes(s.name) ? 1 : 2;
+// A mode's primary and cross-check sources are chosen by hand, so they skip the Min SNR cut and come first.
+// Saved headlines are judged against the time they were saved, so an old snapshot still shows its top stories.
+const eligible = (x) => (rank(x.s, x.m) < 2 || x.s.snr >= THRESH) && (!x.i.d || (DATA.live ? Date.now() : (DATA.at || Date.now())) - x.i.d < 36*36e5);
+function pickTop(matches){
+  const order = matches.slice().sort((a,b)=> rank(a.s,a.m)-rank(b.s,b.m) || b.s.snr-a.s.snr);
+  const top = [], seenSrc = new Set();
+  for (const x of order) if (top.length < MAXN && eligible(x) && !seenSrc.has(x.s.name)){ top.push(x); seenSrc.add(x.s.name); }
+  return top;
+}
+function section(title, meta, matches){            // matches: [{s, i, m}] in SNR order
+  const top = pickTop(matches), rest = matches.filter(x=>!top.includes(x));
   let body = top.map(x=>rowHTML(x.s,[x.i],x.m)).join("");
   if (!body) body = `<div class="empty nosig"><b>No Signal</b> — nothing in this mode at or above ${fmtTh()} right now. Pick a lower Min SNR to see more.</div>`;
   if (rest.length){
@@ -778,10 +1459,10 @@ function section(title, meta, matches){            // matches: [{s, i}] already 
 }
 function fmtTh(){ return (THRESH>0?"+":"")+THRESH+" dB"; }
 function viewSignal(){
-  const sig = SOURCES.filter(s=>s.cls==="signal").sort((a,b)=>b.snr-a.snr);
+  const sig = SOURCES.filter(s=>s.cls==="signal" && s.feed).sort((a,b)=>b.snr-a.snr);
   let h = `<div class="chips">` + [{id:"all",name:"All modes"}].concat(MODES).map(m=>`<button data-m="${m.id}" class="${MODE===m.id?"on":""}">${esc(m.name.split(",")[0])}</button>`).join("") + `</div>`;
   h += `<div class="ctl"><span>Min SNR</span>` + [0,1,2,3].map(v=>`<button data-th="${v}" class="${THRESH===v?"on":""}">${v>0?"+":""}${v} dB</button>`).join("") +
-       `<span class="age">${sig.filter(s=>s.snr>=THRESH).length} of ${sig.length} sources · top ${MAXN} per mode</span></div>`;
+       `<span class="age">${sig.filter(s=>s.snr>=THRESH).length} of ${sig.length} sources · top ${MAXN} per mode · primary and cross-check sources always included</span></div>`;
   if (DATA.failed && SANDBOXED) h += `<div class="warn">You’re viewing a preview (for example inside OneDrive) that blocks live updates, so these are the headlines saved ${DATA.at?ago(DATA.at):"earlier"}. For live headlines and a working Refresh button, download this file and open it in Chrome, Edge or Safari on a computer.</div>`;
   else if (DATA.failed && !Object.keys(DATA.items||{}).length) h += `<div class="warn">Couldn’t reach the headline relay right now. Try Refresh in a minute.</div>`;
   const used = new Set();
@@ -790,7 +1471,7 @@ function viewSignal(){
     const matches = [];
     for (const s of sig) for (const i of (DATA.items[s.name]||[])) if (m.kw.test(i.t) && !used.has(i.l)) matches.push({s,i,m});
     const sec = section(m.name, `Seeker mode: ${esc(m.seeker)} · Primary: ${esc(m.primary.join(", "))} · Cross-check: ${esc(m.cross.join(", "))} · Fail-safe: ${esc(m.fail)}`, matches);
-    if (MODE==="all") { const seen=new Set(); for (const x of matches) if (x.s.snr>=THRESH && !seen.has(x.s.name) && seen.size<MAXN && (!x.i.d || Date.now()-x.i.d < 36*36e5)){ seen.add(x.s.name); used.add(x.i.l); } }
+    if (MODE==="all") for (const x of pickTop(matches)) used.add(x.i.l);
     h += sec;
   }
   if (MODE==="all"){
@@ -800,46 +1481,83 @@ function viewSignal(){
   }
   return h;
 }
+function viewStories(){
+  const multi = STORIES.filter(st=>st.n>=2), single = STORIES.filter(st=>st.n<2).length;
+  let h = `<div class="intro"><h2>Confirmed stories</h2><p>Headlines from the signal sources are grouped into stories by the words they share, with rare words counting most. Near-identical copy (the same wire text republished) counts once. Each story’s <b>evidence</b> is the sum of its independent outlets’ log-odds in dB, so three +3 dB outlets give about +9 dB. Stories are ranked by that sum. <b>One-sided</b> means every outlet carrying it leans the same way outside Ad Fontes’ “middle” band (±6), with no middle or other-side outlet confirming it yet.</p></div>`;
+  if (!multi.length) return h + `<div class="empty">No story is carried by two or more independent signal sources in the last 36 hours yet.</div>`;
+  h += `<section class="mode">` + multi.slice(0,25).map(st=>{
+    const lead = st.ind[0];
+    const rest = st.all.filter(x=>x!==lead);
+    return `<div class="story"><div class="sline"><a class="lead" href="${esc(safeUrl(lead.i.l))}" target="_blank" rel="noopener">${esc(lead.i.t)}</a></div>
+      <div class="sline" style="margin-top:3px"><span class="ev">${sgn(st.ev)} dB</span>${pill("ok", st.n+" independent outlets")}${st.copies?pill("", st.copies+" duplicate copy merged"):""}${pill(st.lean<=-0.5?"L":st.lean>=0.5?"R":"C", "coverage lean "+sgn(st.lean))}${st.oneSided?pill("one","one-sided: only "+st.side+"-leaning outlets so far"):""}</div>
+      <ul class="h">${rest.map(x=>`<li><b>${esc(x.s.name.replace(/ \(web\)/,""))}:</b> <a href="${esc(safeUrl(x.i.l))}" target="_blank" rel="noopener">${esc(x.i.t)}</a> <span class="age">${ago(x.i.d)}</span></li>`).join("")}</ul></div>`;
+  }).join("") + `</section><p class="age">${single} more headline${single===1?"":"s"} carried by a single outlet so far. Grouping works on headline words only, so it sometimes merges two related stories or misses a match worded very differently.</p>`;
+  return h;
+}
+function probLine(s){
+  const pc = s.cls==="signal" ? s.p_sig : s.cls==="propaganda" ? s.p_prop : Math.max(0, 1 - s.p_sig - s.p_prop);
+  const firm = pc>=0.84 ? "firm" : pc>=0.6 ? "likely" : "close call";
+  return `<div class="prob">Fused SNR ${sgn(s.snr)} dB (range ${sgn(s.snr_lo)} to ${sgn(s.snr_hi)}) · P(${s.cls}) ≈ ${Math.round(pc*100)}%, ${firm}${s.disagree?` · <span style="color:var(--red)">raters disagree</span>`:""}</div>`;
+}
+function raters(s){
+  const af = s.est ? "Ad Fontes: not rated" : `Ad Fontes: reliability ${s.rel_af.toFixed(1)}, bias ${sgn(s.bias)}`;
+  const mb = s.mbfc ? `MBFC: ${s.mbfc.fact}${s.mbfc.fn!=null?" ("+s.mbfc.fn+")":""}, ${s.mbfc.bias}${s.mbfc.via?" — rating for "+s.mbfc.via:""} → ${s.mbfc.R.toFixed(1)}, ${sgn(s.mbfc.B)} on Ad Fontes’ scale` : "MBFC: not rated";
+  return `<div class="age" style="white-space:normal">${esc(af)}<br>${esc(mb)}</div>`;
+}
 function bars(s){
-  const snrW = Math.max(0, Math.min(100, (s.snr+8)/13*100)), dW = Math.min(100, s.drift);
+  const snrW = Math.max(0, Math.min(100, (s.snr+8)/13*100)), dW = Math.min(100, s.drift);  // drift 42.9% = Ad Fontes’ ±18 Hyper-Partisan line
   return `<div class="bars"><span>SNR</span><div class="bar"><i style="left:0;width:${snrW}%;background:${s.snr>=0?"var(--green)":"var(--orange)"}"></i></div><b>${(s.snr>=0?"+":"")+s.snr.toFixed(1)} dB</b>
   <span>Drift</span><div class="bar"><i style="left:0;width:${dW}%;background:${s.dir==="L"?"#2a5bc4":s.dir==="R"?"var(--red)":"#888"}"></i></div><b>${Math.round(s.drift)}% ${s.dir}</b></div>`;
 }
 function viewList(cls){
   const L = SOURCES.filter(s=>s.cls===cls).sort((a,b)=>b.snr-a.snr);
   const intro = cls==="noise"
-    ? `<div class="intro"><h2>BS list: noise</h2><p>Sources whose published reliability puts them below 0 dB, meaning more noise than signal, but whose drift is under 40%. In Wiener’s terms this is mostly <b>uncorrelated noise</b>: errors and opinion that don’t all point the same way, so averaging several sources reduces it. The filter mutes them by default. Read one only as a cross-check, never as a first source. This is a measurement category from published scores, not a judgment of motives or of any specific story.</p></div>`
-    : `<div class="intro"><h2>Propaganda list: coherent false signal</h2><p>Sources below 0 dB <b>and</b> with drift of 40% or more. Their error is <b>correlated</b>: it points steadily in one direction, like a jammer transmitting a convincing false target. Averaging doesn’t remove a coherent bias, so the filter rejects these and, like a seeker’s home-on-jam mode, notes who is broadcasting. This is a measurement category from published scores, not a judgment of motives or of any specific story.</p></div>`;
+    ? `<div class="intro"><h2>BS list: noise</h2><p>Sources whose fused reliability is below even odds (under 0 dB: an item from them is more likely unreliable than reliable, on the raters’ scale), but whose lean stays inside Ad Fontes’ own Hyper-Partisan line (±18 of 42, drift under 42.9%). Their error is mostly scatter, but it still tilts one way, so averaging several from the same side does not cancel it; only pairing opposite leans helps. The filter mutes them. Read one only as a cross-check, never as a first source. This is a measurement category from published ratings, not a judgment of motives or of any specific story.</p></div>`
+    : `<div class="intro"><h2>Propaganda list: coherent false signal</h2><p>Sources below even odds (under 0 dB) <b>and</b> beyond Ad Fontes’ own Hyper-Partisan line (bias past ±18 of 42). Both lines are fixed points of the raters’ published scales, not thresholds chosen here: 0 dB is where reliable and unreliable content are equally likely, and ±18 is where Ad Fontes starts calling content hyper-partisan, a range it does not recommend. Each card shows how firmly a source sits in the region, from the spread between Ad Fontes and Media Bias/Fact Check. Like a jammer, their error points steadily one way, so it does not average out. The filter rejects them. This is a measurement category from published ratings, not a judgment of motives or of any specific story.</p></div>`;
   return intro + `<div class="cards">` + L.map(s=>`<div class="card ${cls==="propaganda"?"prop":""}"><h3>${esc(s.name)}${s.est?" *":""}</h3>
-    <div class="sline">${pill("", s.group)}${pill("", "score "+Math.round(s.fom))}</div>${bars(s)}
+    <div class="sline">${pill("", s.group)}</div>${bars(s)}${probLine(s)}${raters(s)}
     <div style="font-size:13.5px">${esc(s.note)}</div><div style="font-size:12.5px;margin-top:6px"><a href="${esc(s.home)}" target="_blank" rel="noopener">Source site ↗</a></div></div>`).join("") + `</div>` +
-    (L.some(s=>s.est) ? `<p class="foot">* No Ad Fontes score. Its Media Bias/Fact Check rating (Extreme Right, Low factual reporting) is mapped onto Ad Fontes’ scale as bias +27, reliability 20, calibrated on War Room, which both services rate.</p>` : "");
+    (L.some(s=>s.est) ? `<p class="foot">* No Ad Fontes score; its position comes from Media Bias/Fact Check alone, mapped onto Ad Fontes’ scale with the calibration described under How it works.</p>` : "");
 }
 function viewAll(){
   const L = SOURCES.slice().sort((a,b)=>b.snr-a.snr);
   const lab = {signal:"✓ signal", noise:"noise", propaganda:"propaganda"};
-  return `<div class="intro"><h2>All sources, ranked by SNR</h2><p>SNR and drift come from Ad Fontes Media’s published reliability and bias scores (Nov. 2026). Relevance and scope are the author’s assessment. Filter score = 70% published ratings + 30% assessment.</p></div>
-  <div class="tw"><table><thead><tr><th>Source</th><th>Filter</th><th>SNR</th><th>Drift</th><th>Score</th><th>What to know</th></tr></thead><tbody>` +
-  L.map(s=>`<tr><td><b>${esc(s.name)}${s.est?" *":""}</b><br><span class="age">${s.group}</span></td><td style="color:${s.cls==="signal"?"var(--green)":s.cls==="noise"?"var(--orange)":"var(--red)"};font-weight:700">${lab[s.cls]}</td><td>${(s.snr>=0?"+":"")+s.snr.toFixed(1)}</td><td>${Math.round(s.drift)}% ${s.dir}</td><td>${Math.round(s.fom)}</td><td>${esc(s.note)}</td></tr>`).join("") + `</tbody></table></div><p class="age" style="padding:8px 2px">Not rated: <b>Jimmy Kimmel Live!</b> has no published Ad Fontes or Media Bias/Fact Check reliability score, so it can’t be scored. Treat it as entertainment, never a primary source.</p>`;
+  const col = c => c==="signal"?"var(--green)":c==="noise"?"var(--orange)":"var(--red)";
+  const pc = s => s.cls==="signal" ? s.p_sig : s.cls==="propaganda" ? s.p_prop : Math.max(0,1-s.p_sig-s.p_prop);
+  return `<div class="intro"><h2>All sources, ranked by fused SNR</h2><p>Two independent raters, fused. Ad Fontes Media scores reliability 0–64 and bias −42…+42; Media Bias/Fact Check (MBFC) rates factual reporting on a 0–10 scale (0 best) and bias −10…+10. MBFC’s numbers are mapped onto Ad Fontes’ scales by a straight-line fit over the sources both rate, then each source’s two readings are averaged with weights 1/σ² (a parent network’s rating, or a category without a number, counts for less). “Raters disagree” marks a gap more than twice the usual spread. <b>Learned</b> shows how often this browser has seen the source’s headlines picked up by another independent outlet, against what its rating predicts.</p></div>
+  <div class="tw"><table><thead><tr><th>Source</th><th>Class</th><th>Fused SNR</th><th>Drift</th><th>Ad Fontes R, B</th><th>MBFC</th><th>Learned</th><th>What to know</th></tr></thead><tbody>` +
+  L.map(s=>{ const l = s.cls==="signal"&&s.feed ? learned(s) : null;
+    return `<tr><td><b>${esc(s.name)}${s.est?" *":""}</b><br><span class="age">${s.group}</span></td>
+    <td style="color:${col(s.cls)};font-weight:700">${lab[s.cls]}<br><span class="age" style="font-weight:400">P ≈ ${Math.round(pc(s)*100)}%</span></td>
+    <td>${sgn(s.snr)}<br><span class="age">${sgn(s.snr_lo)} to ${sgn(s.snr_hi)}</span></td><td>${Math.round(s.drift)}% ${s.dir}</td>
+    <td>${s.est?"—":s.rel_af.toFixed(1)+", "+sgn(s.bias)}${s.disagree?`<br><span style="color:var(--red);font-size:12px">raters disagree</span>`:""}</td>
+    <td>${s.mbfc?esc(s.mbfc.fact)+(s.mbfc.fn!=null?" ("+s.mbfc.fn+")":"")+", "+esc(s.mbfc.bias)+(s.mbfc.via?`<br><span class="age" style="white-space:normal">via ${esc(s.mbfc.via)}</span>`:""):`<span class="age">not rated</span>`}</td>
+    <td>${l ? (l.n ? `${l.c}/${l.n} confirmed<br><span class="age">${sgn(l.dB)} dB</span>` : `<span class="age">no record yet</span>`) : `<span class="age">—</span>`}</td>
+    <td>${esc(s.note)}</td></tr>`; }).join("") + `</tbody></table></div><p class="age" style="padding:8px 2px;white-space:normal">Not rated: <b>Jimmy Kimmel Live!</b> has no published Ad Fontes or Media Bias/Fact Check reliability score, so it can’t be scored. Treat it as entertainment, never a primary source.</p>`;
 }
 function viewMethod(){
   return `<div class="intro"><h2>How the filter works</h2>
-  <p><b>Signal-to-noise ratio.</b> SNR (dB) = 10·log<sub>10</sub>(R / (64 − R)), where R is Ad Fontes Media’s 0–64 reliability score. R = 32 gives 0 dB; above it there is more signal than noise.</p>
-  <p><b>Drift</b> = |bias| / 42, as a percentage, the way a seeker measures boresight error. L or R gives the direction.</p>
-  <p><b>Three classes.</b> Signal: SNR ≥ 0 dB (headlines shown). Noise: SNR &lt; 0 dB and drift &lt; 40% (muted). Propaganda, a coherent false signal: SNR &lt; 0 dB and drift ≥ 40% (rejected).</p>
-  <p><b>Modes.</b> As a missile seeker changes modes with the scene, the filter sorts live headlines into seven subject modes by keyword. Within each mode, the three strongest headlines from the last 36 hours are shown, one per source, from sources at or above the Min SNR setting (default +2 dB); everything else is rolled up behind a “more” line you can open. Each mode’s primary and cross-check sources are marked. Cross-checks are chosen so their drifts point in opposite directions and largely cancel.</p>
-  <p><b>Live updates.</b> Each time the page opens, and whenever you tap Refresh, it pulls the newest headlines from each high-SNR source’s public feed through a free relay (rss2json.com). No AI is involved: headlines appear exactly as each outlet wrote them. If the relay can’t be reached, the last good set is shown with its time.</p>
+  <p>Two kinds of idea are at work here, and they should not be confused. <b>Wiener’s cybernetics</b> supplies the picture: a block diagram of information flowing from sources to a reader, with feedback, noise and control of the channel as the things that matter. That part is a way of thinking, not a calculation. <b>The engineering</b> is the arithmetic below: converting ratings to log-odds, fusing two raters by inverse-variance weighting, testing which side of a boundary a source sits on, adding evidence from independent reports, and updating a Beta prior from observed confirmations. Each of those is a standard estimation or detection technique, and each is stated with its assumptions.</p>
+  <p><b>1. Signal-to-noise ratio as log-odds.</b> SNR (dB) = 10·log<sub>10</sub>(R / (64 − R)), where R is the 0–64 reliability score. If p = R/64 is read as the share of a source’s content that rates reliable, the SNR is the log-odds of a reliable item, in decibels: 0 dB is even odds, +3 dB is about 2 to 1, +4.8 dB is 3 to 1. Alan Turing and I. J. Good used the same unit, the deciban, for weight of evidence. The ratings themselves are human judgments on Ad Fontes’ scale, not measured power.</p>
+  <p><b>2. Two raters, fused.</b> Media Bias/Fact Check’s factual score (0–10) is mapped onto Ad Fontes’ reliability by a reduced-major-axis line fitted over the ${CAL.n} sources both rate with a number: R ≈ ${CAL.b} ${CAL.a<0?"−":"+"} ${Math.abs(CAL.a)} × MBFC (r = ${CAL.r}). Bias is mapped the same way over ${CAL.nb} sources: B ≈ ${CAL.c0} + ${CAL.c1} × MBFC bias (r = ${CAL.rb}). Reduced-major-axis is used rather than ordinary least squares because both raters have error; least squares would squeeze the extremes toward the middle. The scatter about each line (σ ≈ ${CAL.sr} reliability points, ${CAL.sb} bias points) is split equally between the two raters, and each source’s two readings are combined with weights 1/σ², which for equal variances is a plain average. A rating that belongs to a parent network or that has only a category, not a number, gets a larger variance and so less weight. The result has an error bar, shown as an SNR range.</p>
+  <p><b>3. Three classes, with fixed published boundaries.</b> Signal: fused SNR ≥ 0 dB. Noise: below 0 dB with bias inside ±18. Propaganda: below 0 dB and beyond ±18. Zero dB is even odds; ±18 is Ad Fontes’ own boundary for “Hyper-Partisan” content, which it does not recommend. Neither line was tuned to produce a particular list. Each source’s probability of being in its class is computed from its error bars, treating the two errors as normal and independent: P(propaganda) = P(R &lt; 32) × P(|B| ≥ 18). A value near 50% means the rating could fall either way.</p>
+  <p><b>4. Story fusion.</b> Headlines are grouped into stories by shared words, weighted by rarity (tf-idf cosine similarity with average linkage). Copy that is nearly word-for-word identical across outlets counts as one observation, because republished wire text is not independent confirmation. A story’s weight of evidence is the sum of its independent outlets’ log-odds, which is how independent observations combine in Bayes’ rule. The assumption of independence is the weak point: outlets often follow one another, so the sum overstates certainty. A story is flagged one-sided when every outlet carrying it leans the same way beyond ±6, Ad Fontes’ “middle” band.</p>
+  <p><b>5. Learning from its own record (this browser only).</b> Each live headline is later scored: confirmed if another independent signal outlet carries the same story within 36 hours, unconfirmed after 24 hours without one. Each source starts from a Beta prior worth ${N0} observations, centred on the confirmation rate its rating predicts. As records accumulate, the posterior shifts that source’s weight in story fusion by up to ±2 dB. It does not change the source’s class, because being picked up by others measures corroboration, not accuracy: an exclusive scoop is unconfirmed at first, and a widely repeated error is confirmed. The record lives only in this browser (localStorage); nothing is sent anywhere.</p>
+  <p><b>Modes.</b> As a missile seeker changes modes with the scene, the filter sorts headlines into seven subject modes by keyword matching, so some stories land in the wrong mode. Within each mode, up to three headlines from the last 36 hours are shown, one per source: the mode’s primary sources first, then its cross-checks, then other sources at or above the Min SNR setting (default +3 dB), strongest first. A green ✓ shows how many independent outlets carry the same story.</p>
+  <p><b>Live updates.</b> Each time the page opens, and whenever you tap Refresh, it pulls the newest headlines from each signal source’s public feed through free relays (rss2json.com, allorigins.win) and news-search feeds. No AI is involved: headlines appear exactly as each outlet wrote them. If the relays can’t be reached, the last good set is shown with its time.</p>
+  <p><b>What this is, and isn’t.</b> The app does not run a Wiener filter on the headlines. A Wiener filter needs the power spectra of signal and noise; here there are only two sets of published ratings and the headlines themselves. What it does is reliability-weighted sensor fusion and a detection test against fixed boundaries, which is the family of methods Wiener’s work founded, applied honestly to the data that exist.</p>
   <p><b>Norbert Wiener.</b> His 1942 filter, published in 1949, estimates a signal by weighting inputs according to their noise. In <i>Cybernetics</i> (1948) he called control of the means of communication the most important force working against a society’s ability to correct itself.</p>
   <p><b>Watch: the missile seeker from the presentation.</b></p>
   <ul class="h" style="margin-bottom:8px">
    <li><a href="https://www.youtube.com/watch?v=QWELGXIionQ" target="_blank" rel="noopener">Missile defence systems MKV-R and MKV-L</a> <span class="age">Multiple Kill Vehicle hover test footage (Lockheed Martin / Missile Defense Agency, Dec. 2008)</span></li>
   </ul>
-  <p class="foot">Ratings: Ad Fontes Media source pages (retrieved November 2026); Media Bias/Fact Check for Promethean Updates. Ratings are the author’s opinion, calculated from published scores of content; they are not a verdict on any person’s motives or on any specific story. Not affiliated with or endorsed by Ad Fontes Media. Built for “An Auto-Ranging Media BS Filter” by Peter Maloney.</p></div>`;
+  <p class="foot">Ratings: Ad Fontes Media and Media Bias/Fact Check source pages (retrieved November 2026). Ratings are the author’s opinion, calculated from published scores of content; they are not a verdict on any person’s motives or on any specific story. Not affiliated with or endorsed by Ad Fontes Media or Media Bias/Fact Check. Companion to the video “The Cybernetic News Feed Filter.”</p></div>`;
 }
 function render(){
+  runFusion();
   stamp();
   document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("on", b.dataset.v===VIEW));
-  const v = {signal:viewSignal, noise:()=>viewList("noise"), prop:()=>viewList("propaganda"), all:viewAll, method:viewMethod}[VIEW] || viewSignal;
+  const v = {signal:viewSignal, stories:viewStories, noise:()=>viewList("noise"), prop:()=>viewList("propaganda"), all:viewAll, method:viewMethod}[VIEW] || viewSignal;
   $("#main").innerHTML = v();
   document.querySelectorAll(".chips button").forEach(b=>b.onclick=()=>{ MODE=b.dataset.m; render(); });
   document.querySelectorAll(".ctl button").forEach(b=>b.onclick=()=>{ THRESH=+b.dataset.th; try{localStorage.setItem("wbsf-th3",THRESH)}catch(e){} render(); });
